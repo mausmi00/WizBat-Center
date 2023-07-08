@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { UserButton } from "@clerk/nextjs";
 
+// this page triggers the modal
 const RootPage = () => {
   const onOpen = useStoreModal((state) => state.onOpen);
   const isOpen = useStoreModal((state) => state.isOpen);
@@ -15,11 +16,7 @@ const RootPage = () => {
     }
   }, [isOpen, onOpen]);
 
-  return (
-    <div className="p-4">
-      <UserButton afterSignOutUrl="/" />
-    </div>
-  );
+  return null;
 };
 
 export default RootPage;

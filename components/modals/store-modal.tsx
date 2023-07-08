@@ -40,9 +40,11 @@ export const StoreModal = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setLoading(true);
-      
       const response = await axios.post("/api/stores", values);
-      toast.success("Store created!");
+
+      // this does a complete refresh. Using "redirect" does not gurantee 100% completion of the previous
+      // command before loading the page
+      window.location.assign(`/${response.data.id}`);
     } catch (error) {
       toast.error("Something went wrong");
     } finally {
