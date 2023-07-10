@@ -24,9 +24,5 @@ export default async function RootLayout({
     redirect(`/${store.id}`);
   }
 
-  return (
-    <>
-    {children}
-    </>
-  )
+  return <>{children}</>;
 }
