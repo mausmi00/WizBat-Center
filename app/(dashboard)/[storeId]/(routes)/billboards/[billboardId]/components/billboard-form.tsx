@@ -66,10 +66,17 @@ export const BillboardForm: React.FC<BillboardsFormProps> = ({
   const onSubmit = async (data: BillboardFormValues) => {
     try {
       setLoading(true);
-      axios.patch(`/api/stores/${params.storeId}`, data).then(() => {
-        router.refresh();
-      });
-      toast.success("Store updated");
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          data
+        );
+      } else {
+        await axios.post(`/api/${params.storeId}/billboards`, data);
+      }
+      router.refresh();
+      router.push(`/${params.storeId}/billboards`);
+      toast.success(toastMessage);
     } catch (error) {
       toast.error("yayyyy");
     } finally {
@@ -80,13 +87,16 @@ export const BillboardForm: React.FC<BillboardsFormProps> = ({
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/stores/${params.storeId}`).then(() => {
-        router.refresh();
-        router.push("/");
-        toast.success("Store deleted!");
-      });
+      await axios.delete(
+        `/api/${params.storeId}/billboards/${params.billboardId}`
+      );
+      router.refresh();
+      router.push("/");
+      toast.success("Billboard deleted!");
     } catch (error) {
-      toast.error("Make sure you removed all products and categories first.");
+      toast.error(
+        "Make sure you removed all categories using this billboard first."
+      );
     } finally {
       setLoading(false);
       setOpen(false);
@@ -127,9 +137,12 @@ export const BillboardForm: React.FC<BillboardsFormProps> = ({
               <FormItem>
                 <FormLabel>Background Image</FormLabel>
                 <FormControl>
-                 <ImageUpload value={field.value ? [field.value] : []} disabled={loading}
-                 onChange={(url) => field.onChange(url)}
-                 onRemove={() => field.onChange("")}/>
+                  <ImageUpload
+                    value={field.value ? [field.value] : []}
+                    disabled={loading}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange("")}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
