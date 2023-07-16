@@ -172,7 +172,7 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
                     onChange={(url) =>
                       field.onChange([...field.value, { url }])
                     }
-                    onRemove={() =>
+                    onRemove={(url) =>
                       field.onChange([
                         ...field.value.filter((current) => current.url !== url),
                       ])
