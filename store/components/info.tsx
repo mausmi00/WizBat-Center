@@ -35,7 +35,7 @@ const Info: React.FC<InfoProps> = ({ data }) => {
             className="h-6 w-6 rounded-full border border-gray-600"
             style={{ backgroundColor: data?.color?.value }}
           >
-            {data?.size?.value}
+            {data?.color?.value}
           </div>
         </div>
       </div>
