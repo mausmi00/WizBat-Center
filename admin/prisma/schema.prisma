@@ -136,3 +136,26 @@ model OrderItem {
   @@index([orderId])
   @@index([productId])
 }
+
+model Conversation {
+  id       String    @id @default(uuid())
+  messages Message[]
+  userId   String
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  body           String?
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  createdAt      DateTime     @default(now())
+
+  // conversationId String       @db.ObjectId
+  // conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  // senderId            String   @db.ObjectId
+  // sender              User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+  // responderShouldBeAi Boolean? @default(false)
+
+  @@index([conversationId])
+}
