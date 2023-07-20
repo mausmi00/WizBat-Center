@@ -2,7 +2,10 @@ import prismadb from "@/lib/prismadb";
 import { auth, useUser } from "@clerk/nextjs";
 import { id } from "date-fns/locale";
 import { NextResponse } from "next/server"
+<<<<<<< HEAD
 import exportDataAsCSV from "../export/exportFile";
+=======
+>>>>>>> b61607790bc2f37d2fad78a73a6638caae1699ee
 
 interface IParams {
     storeId: string
@@ -101,8 +104,11 @@ export async function GET(request: Request, { params }: { params: IParams }) {
             }
         })
         
+<<<<<<< HEAD
         exportDataAsCSV();
         
+=======
+>>>>>>> b61607790bc2f37d2fad78a73a6638caae1699ee
         return NextResponse.json(getMessages)
 
     } catch (error: any) {
