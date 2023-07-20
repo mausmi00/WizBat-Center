@@ -4,6 +4,8 @@ import StoreSwitcher from "@/components/store-switcher";
 import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { AiOutlineQq } from "react-icons/ai";
+import SheetDisplay from "@/app/(dashboard)/[storeId]/(routes)/robin/components/sheetDisplay";
 
 const Navbar = async () => {
   const { userId } = auth();
@@ -23,6 +25,8 @@ const Navbar = async () => {
         <StoreSwitcher items={stores} />
         <MainNav className="mx-6" />
         <div className="ml-auto flex items-center space-x-4">
+          {/* <AiOutlineQq size={25} onClick={openSideSheet}/> */}
+          <SheetDisplay/>
           <ThemeToggle />
           <UserButton afterSignOutUrl="/" />
         </div>
