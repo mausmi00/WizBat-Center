@@ -7,57 +7,114 @@ import { createObjectCsvWriter } from 'csv-writer';
 
 async function exportDataAsCSV() {
     try {
-        // Step 1: Fetch data using Prisma
+
         const billboards = await prismadb.billboard.findMany();
 
-        // // Step 2: Convert data to CSV format
-        const csvWriter = createObjectCsvWriter({
-            path: "output.csv",
-            header: [
-                { id: "id", title: "BillboardId" },
-                { id: "storeId", title: "StoreId" },
-                { id: "label", title: "Billboard label" },
-                { id: "imageUrl", title: "Billboard imageURL" },
-                { id: "createdAt", title: "Billboard createdAt" },
-                { id: "updatedAt", title: "UpdatedAt" },
-                { id: "id", title: "CategoryId" },
-                { id: "name", title: "Category Name" },
-                { id: "createdAt", title: "Category createdAt" },
-                { id: "updatedAt", title: "Category updatedAt" },
-            ]
-        });
+        const billboardHeader = [
+            { id: "id", title: "Billboard id" },
+            { id: "storeId", title: "Store id" },
+            { id: "label", title: "Billboard label" },
+            { id: "imageUrl", title: "Billboard imageURL" },
+            { id: "createdAt", title: "Billboard createdAt" },
+            { id: "updatedAt", title: "Billboard updatedAt" },
+        ]
+        const categoryHeader = [
+            { id: "id", title: "CategoryId" },
+            { id: "name", title: "Category Name" },
+            { id: "createdAt", title: "Category createdAt" },
+            { id: "updatedAt", title: "Category updatedAt" },
+        ]
+        const checkoutHeader = [
+            { id: "id", title: " Checkout id" },
+            { id: "storeId", title: "Checkout storeId" },
+            { id: "isPaid", title: "Checkout status" },
+            { id: "phone", title: "Checkout user phone" },
+            { id: "address", title: "Checkout user address" },
+            { id: "createdAt", title: "Checkout createdAt" },
+            { id: "updatedAt", title: "Checkout updatedAt" },
+        ]
+        const colorHeader = [
+            { id: "id", title: "Colors id" },
+            { id: "storeId", title: "Colors StoreId" },
+            { id: "name", title: "Color Name" },
+            { id: "value", title: "Color hex value" },
+            { id: "createdAt", title: "Color createdAt" },
+            { id: "updatedAt", title: "Color updatedAt" },
+        ]
+        const sizeHeader = [
+            { id: "id", title: "Size id" },
+            { id: "storeId", title: "Size StoreId" },
+            { id: "name", title: "Size Name" },
+            { id: "value", title: "Size value" },
+            { id: "createdAt", title: "Size createdAt" },
+            { id: "updatedAt", title: "Size updatedAt" },
+        ]
+        const storeHeader = [
+            { id: "id", title: "Store id" },
+            { id: "name", title: "Store name" },
+            { id: "userId", title: "Store Owner" },
+            { id: "createdAt", title: "Store createdAt" },
+            { id: "updatedAt", title: "Store updatedAt" },
+        ]
+
+        // Billboard
+        let csvWriter = createObjectCsvWriter({
+            path: "./data/billboard.csv",
+            header: billboardHeader,
+            append: false
+        })
+
         await csvWriter.writeRecords(billboards);
 
+        //Categories
         const categories = await prismadb.category.findMany();
-        console.log("categories: ", billboards);
+        csvWriter = createObjectCsvWriter({
+            path: "./data/category.csv",
+            header: categoryHeader,
+            append: false
+        })
+
         await csvWriter.writeRecords(categories);
-        const checkoutPaid = await prismadb.order.findMany({
-            where: {
-                isPaid: true
-            }
-        });
-        const checkoutNotPaid = await prismadb.order.findMany({
-            where: {
-                isPaid: false
-            }
-        });
+
+
+        //Checkout
+        const checkout = await prismadb.order.findMany();
+        csvWriter = createObjectCsvWriter({
+            path: "./data/checkout.csv",
+            header: checkoutHeader,
+            append: false
+        })
+        await csvWriter.writeRecords(checkout);
+
+        //Colors
         const colors = await prismadb.color.findMany();
+        csvWriter = createObjectCsvWriter({
+            path: "./data/color.csv",
+            header: colorHeader,
+            append: false
+        })
+        await csvWriter.writeRecords(colors);
+
+
+        //Size
         const sizes = await prismadb.size.findMany();
+        csvWriter = createObjectCsvWriter({
+            path: "./data/size.csv",
+            header: sizeHeader,
+            append: false
+        })
+        await csvWriter.writeRecords(sizes);
+
+        //Stores
         const stores = await prismadb.store.findMany();
-        console.log(categories);
-        // const combinedData = [];
-        // combinedData.push(billboards);
-        // combinedData.push(categories);
-        // combinedData.push(checkoutPaid);
-        // combinedData.push(checkoutNotPaid);
-        // combinedData.push(colors);
-        // combinedData.push(sizes);
-        // combinedData.push(stores);
-        // console.log("combined data: ", combinedData)
+        csvWriter = createObjectCsvWriter({
+            path: "./data/store.csv",
+            header: storeHeader,
+            append: false
+        })
+        await csvWriter.writeRecords(stores);
 
-        // Step 3: Create CSV file
-
-        console.log('CSV file has been written.');
+        console.log('CSV files have been written.');
 
         // Step 4: Send CSV file to client (Not shown here, you'll need to implement the server response and client-side handling)
     } catch (error) {
