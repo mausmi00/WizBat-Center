@@ -42,7 +42,7 @@ export async function POST(request: Request) {
                     body: message,
                     conversation: {
                         connect: {
-                            id: newConversation.id
+                            id: newConversation?.id
                         }
                     }
                 }
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
                 body: message,
                 conversation: {
                     connect: {
-                        id: conversation[0].id
+                        id: conversation[0]?.id
                     }
                 }
             }
@@ -94,7 +94,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
 
         const getMessages = await prisma?.message.findMany({
             where: {
-                conversationId: convoMessages[0].id
+                conversationId: convoMessages[0]?.id
             },
             orderBy: {
                 createdAt: 'asc'
