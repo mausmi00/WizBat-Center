@@ -7,17 +7,18 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const NavbarActions = () => {
-  // const [isMounted, setIsMounted] = useState(false);
-
-  // useEffect(() => {
-  //   setIsMounted(true);
-  // });
-
-  // if (!isMounted) {
-  //   return null;
-  // }
+  const [isMounted, setIsMounted] = useState(false);
   const cart = useCart();
   const router = useRouter();
+
+  // fix hydration error
+  useEffect(() => {
+    setIsMounted(true);
+  });
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <div className="ml-auto flex items-center gap-x-4">

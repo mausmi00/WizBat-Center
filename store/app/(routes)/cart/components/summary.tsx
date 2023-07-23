@@ -9,9 +9,9 @@ import { useEffect } from "react";
 import toast from "react-hot-toast";
 
 const Summary = () => {
+  const searchParams = useSearchParams();
   const items = useCart((state) => state.items);
   const removeAll = useCart((state) => state.removeAll);
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (searchParams.get("success")) {
