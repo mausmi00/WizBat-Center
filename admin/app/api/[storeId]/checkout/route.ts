@@ -44,7 +44,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         })
     });
 
-    const order = await prismadb.order.create({
+    const order = await prismadb.orderPlaced.create({
         data: {
             storeId: params.storeId,
             isPaid: false,

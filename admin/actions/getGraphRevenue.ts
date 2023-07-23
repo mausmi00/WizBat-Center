@@ -6,7 +6,7 @@ interface GraphData {
 }
 
 export const getGraphRevenue = async (storeId: string) => {
-    const paidOrders = await prismadb.order.findMany({
+    const paidOrders = await prismadb.orderPlaced.findMany({
         where: {
             storeId,
             isPaid: true,

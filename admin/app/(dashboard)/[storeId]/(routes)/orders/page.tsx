@@ -5,7 +5,7 @@ import { formatter } from "@/lib/utils";
 import { OrderClient } from "./components/order-client";
 
 const OrdersPage = async ({ params }: { params: { storeId: string } }) => {
-  const orders = await prismadb.order.findMany({
+  const orders = await prismadb.orderPlaced.findMany({
     where: {
       storeId: params.storeId,
     },
