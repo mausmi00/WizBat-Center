@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import MessageInput from "./messageInput";
 import { HiPaperAirplane, HiEllipsisHorizontal } from "react-icons/hi2";
@@ -7,13 +7,14 @@ import prismadb from "@/lib/prismadb";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { UserProfile } from "@clerk/nextjs";
+import { UserProfile, useUser } from "@clerk/nextjs";
 
 interface FormProps {
   storeId: string;
 }
 
 const Form: React.FC<FormProps> = ({ storeId }) => {
+
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -29,13 +30,31 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
     },
   });
 
+  const onSocketMessage = (body: string, to: string | null | undefined) => {
+    if (globalThis.socket === null) {
+      toast.error("connection not established");
+    }
+    globalThis.socket?.current?.send(
+      JSON.stringify({
+        action: "sendMessage",
+        message: body,
+        to,
+      })
+    );
+    // const result = globalThis.socket?.current?.response();
+    // const { message } = result;
+    // console.log("resopnse is: ", message);
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // global.messageIsBeingGenerated = true;
     // setIsLoading(global.messageIsBeingGenerated);
     // setIsLoading(true);
     // global.shouldDisplay = false;
     // setIsLoading(global.shouldDisplay);
+
     setValue("message", "", { shouldValidate: true });
+    onSocketMessage(data.message, globalThis.user?.firstName);
     axios
       .post(`/api/${storeId}/robin`, {
         ...data,
@@ -78,21 +97,7 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
 
   return (
     <>
-      <div
-        className="
-      py-4
-      px-4
-      bg-[#1F2833]
-      border-t
-      flex
-      items-center
-      gap-2
-      lg:gap-4
-      w-full
-      "
-      >
-        {defaultMessage}
-      </div>
+      <div>{defaultMessage}</div>
     </>
   );
 };

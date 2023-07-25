@@ -6,16 +6,21 @@ import prismadb from "@/lib/prismadb";
 import { Message } from "@prisma/client";
 import { useParams } from "next/navigation";
 import { useUser } from "@clerk/nextjs";
+import { UserResource } from "@clerk/types";
+
+declare global {
+  var user: UserResource | null | undefined;
+}
 
 interface MessageBoxProps {
   //   data: [FullMessageType;]
   initialMessages: Message[] | null;
 }
-
 const messageBox: React.FC<MessageBoxProps> = ({ initialMessages }) => {
-  console.log("initial message: ", initialMessages);
   const { user } = useUser();
-  console.log("user image: ", user?.imageUrl);
+  globalThis.user = user;
+  // console.log("user: ", user)
+  // console.log("user image: ", user?.imageUrl);
   //   const session = useSession();
   // const isOwn = session?.data?.user?.email === data?.sender?.email;
   //   const params = useParams();
@@ -47,14 +52,18 @@ const messageBox: React.FC<MessageBoxProps> = ({ initialMessages }) => {
   return (
     <div className={container}>
       <div className={body}>
-        <div className="flex items-center gap-1"></div>
+        <div className="flex items-center gap-1" />
         <div className={messages}>
           {/* <div>{data.body}</div> */}
-          <Avatar url={"/images/robin.jpg"} />
-          
-            I'm Robin, your Shopify assistant. Ask any questions about your shop
-            that you need help with, and I'll try my best to assist you with it.
-          
+          <div className="flex gap-3">
+            <Avatar url={"/images/robin.jpg"} />
+            <p>
+              I'm Robin, your Shopify assistant. Ask any questions about your
+              shop that you need help with, and I'll try my best to assist you
+              with it.
+            </p>
+          </div>
+
           {initialMessages?.map((message: Message) => (
             <>
               <div className="pt-4">
@@ -68,7 +77,6 @@ const messageBox: React.FC<MessageBoxProps> = ({ initialMessages }) => {
                   <Avatar url={user?.imageUrl} />
                   {message?.body}
                 </div>
-                
               </div>
             </>
           ))}
