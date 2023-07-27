@@ -9,17 +9,17 @@ datasource db {
 }
 
 model Store {
-  id         String      @id @default(uuid())
+  id         String        @id @default(uuid())
   name       String
   userId     String
-  billboard  Billboard[] @relation("StoreToBillBoard")
-  categories Category[]  @relation("StoreToCategory")
-  sizes      Size[]      @relation("StoreToSize")
-  colors     Color[]     @relation("StoreToColor")
-  products   Product[]   @relation("StoreToProduct")
-  orders     OrderPlaced[]     @relation("StoreToOrder")
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  billboard  Billboard[]   @relation("StoreToBillBoard")
+  categories Category[]    @relation("StoreToCategory")
+  sizes      Size[]        @relation("StoreToSize")
+  colors     Color[]       @relation("StoreToColor")
+  products   Product[]     @relation("StoreToProduct")
+  orders     OrderPlaced[] @relation("StoreToOrder")
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
 }
 
 model Billboard {
@@ -127,11 +127,11 @@ model OrderPlaced {
 }
 
 model OrderItem {
-  id        String  @id @default(uuid())
+  id        String      @id @default(uuid())
   orderId   String
-  order     OrderPlaced   @relation(fields: [orderId], references: [id])
+  order     OrderPlaced @relation(fields: [orderId], references: [id])
   productId String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product     @relation(fields: [productId], references: [id])
 
   @@index([orderId])
   @@index([productId])
@@ -149,6 +149,7 @@ model Message {
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   createdAt      DateTime     @default(now())
+  isAi           Boolean      @default(false)
 
   // conversationId String       @db.ObjectId
   // conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)

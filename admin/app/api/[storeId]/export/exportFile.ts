@@ -1,11 +1,8 @@
 import { createObjectCsvWriter } from 'csv-writer';
-import csvLoader from "../robin/components/csvLoader";
 import { PrismaClient } from "@prisma/client";
 
 async function exportDataAsCSV() {
-    const prisma = new PrismaClient({
-        log: ["query"]
-    });
+    const prisma = new PrismaClient();
     try {
 
         const header = [
@@ -104,7 +101,7 @@ left join Size s on s.id = p.sizeId
 left join OrderItem oi on oi.productId = p.id
 left join OrderPlaced op on oi.orderId = op.id;`;
 
-        console.log("Result :", result);
+        // console.log("Result :", result);
         const csvWriter = createObjectCsvWriter({
             path: "./data/storeInfo.csv",
             header: header,
@@ -112,8 +109,6 @@ left join OrderPlaced op on oi.orderId = op.id;`;
         })
 
         await csvWriter.writeRecords(result);
-
-        csvLoader();
 
         console.log('CSV files have been written.');
     } catch (error) {

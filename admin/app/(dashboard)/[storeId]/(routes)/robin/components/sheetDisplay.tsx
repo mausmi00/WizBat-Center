@@ -1,8 +1,8 @@
 "use client";
 
-import { Pointer, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AiOutlineQq, AiOutlineSend } from "react-icons/ai";
+import { AiOutlineQq } from "react-icons/ai";
 import {
   Sheet,
   SheetContent,
@@ -13,20 +13,13 @@ import {
   SheetTrigger,
   SheetClose,
 } from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import MessageBody from "./messageBody";
-import MessageInput from "./messageInput";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { HiPaperAirplane } from "react-icons/hi2";
-import prismadb from "@/lib/prismadb";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { Conversation, Message } from "@prisma/client";
 import Form from "./form";
-import { auth, useUser } from "@clerk/nextjs";
 import clsx from "clsx";
+import MemoryChain from "@/app/api/[storeId]/robin/components/memoryChain";
 
 declare global {
   var socket: any;
@@ -71,16 +64,16 @@ const SheetDisplay = () => {
   let convoId = null;
 
   const onClose = () => {
-    setIsLoading(true);
-    axios
-      .delete(`/api/${storeId}/robin`)
-      .then((data) => {
-        console.log("data: ", data);
-        setMessages(null);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    // setIsLoading(true);
+    // axios
+    //   .delete(`/api/${storeId}/robin`)
+    //   .then((data) => {
+    //     console.log("data: ", data);
+    //     setMessages(null);
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
     setOpen(false);
     socket?.current?.close();
     setIsConnected(false);
@@ -90,6 +83,7 @@ const SheetDisplay = () => {
   const onConnect = useCallback(() => {
     console.log("name: ", globalThis.user?.firstName);
     socket.current = new WebSocket(URL);
+    console.log("socket.current.readyState: ", socket.current.readyState);
     socket.current.onopen = function () {
       console.log("inside");
       socket.current?.send(
@@ -101,7 +95,9 @@ const SheetDisplay = () => {
       socket.current?.addEventListener("close", onClose);
       socket.current?.addEventListener("message", (event: { data: string }) => {
         // onSocketMessage(event.data);
-        setNewMessageSent(true);
+        // setTimeout(() => {
+          setNewMessageSent(true);
+        // }, 3);
         console.log("response: ", JSON.parse(event.data).message);
       });
     };
@@ -114,22 +110,34 @@ const SheetDisplay = () => {
         console.log(data);
         setMessages(data.data);
         convoId = data.data[1];
-        setNewMessageSent(false);
         bottomRef?.current?.scrollIntoView();
       })
-      .catch(() => toast.error("Something went wrong!"));
+      .catch(() => toast.error("Something went wrong!"))
+      .finally(() => {
+        setNewMessageSent(false);
+      });
   }, [newMessageSent]);
 
   const onClick = () => {
-    setOpen(true);
+    setIsLoading(true);
     axios
-      .get(`/api/${storeId}/robin`)
+      .delete(`/api/${storeId}/robin`)
       .then((data) => {
-        onConnect();
-        console.log(data);
-        setMessages(data.data);
-        convoId = data.data[1];
-        console.log("messages: ", messages);
+        console.log("data: ", data);
+        setMessages(null);
+      })
+      .then(() => {
+        setOpen(true);
+        axios.get(`/api/${storeId}/robin/csv`).then((data) => {
+          onConnect();
+          console.log(data);
+          setMessages(data.data);
+          convoId = data.data[1];
+          console.log("messages: ", messages);
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
       })
       .catch(() => toast.error("Something went wrong!"));
   };

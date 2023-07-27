@@ -74,7 +74,12 @@ const messageBox: React.FC<MessageBoxProps> = ({ initialMessages }) => {
             /> */}
 
                 <div className="flex gap-3">
-                  <Avatar url={user?.imageUrl} />
+                  {message.isAi ? (
+                    <Avatar url={"/images/robin.jpg"} />
+                  ) : (
+                    <Avatar url={user?.imageUrl} />
+                  )}
+
                   {message?.body}
                 </div>
               </div>

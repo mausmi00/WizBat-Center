@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { UserProfile, useUser } from "@clerk/nextjs";
+import getAiResponse from "@/app/api/[storeId]/robin/components/getAiResponse";
 
 interface FormProps {
   storeId: string;
 }
 
 const Form: React.FC<FormProps> = ({ storeId }) => {
-
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
@@ -30,10 +30,14 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
     },
   });
 
-  const onSocketMessage = (body: string, to: string | null | undefined) => {
+  const onSocketMessage = async (
+    body: string,
+    to: string | null | undefined
+  ) => {
     if (globalThis.socket === null) {
       toast.error("connection not established");
     }
+
     globalThis.socket?.current?.send(
       JSON.stringify({
         action: "sendMessage",
@@ -41,31 +45,37 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
         to,
       })
     );
-    // const result = globalThis.socket?.current?.response();
-    // const { message } = result;
-    // console.log("resopnse is: ", message);
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    // global.messageIsBeingGenerated = true;
-    // setIsLoading(global.messageIsBeingGenerated);
-    // setIsLoading(true);
-    // global.shouldDisplay = false;
-    // setIsLoading(global.shouldDisplay);
-
     setValue("message", "", { shouldValidate: true });
-    onSocketMessage(data.message, globalThis.user?.firstName);
     axios
       .post(`/api/${storeId}/robin`, {
         ...data,
       })
       .then(() => {
-        router.refresh();
+        onSocketMessage(data.message, globalThis.user?.firstName);
       })
       .catch(() => {
         toast.error("Something went wrong. Please refresh.");
-      });
+      })
   };
+
+  // const agentResponseGenerated = (message: string) => {
+  //   console.log("called");
+  //   console.log("chain before: ", global.CHAIN)
+  //   const response = getAiResponse(global.CHAIN, message);
+  //   axios
+  //     .post(`/api/${storeId}/robin`, {
+  //       ...response,
+  //     })
+  //     .then(() => {
+  //       router.refresh();
+  //     })
+  //     .catch(() => {
+  //       toast.error("Error occured while generating response.");
+  //     });
+  // };
 
   const defaultMessage = (
     <form
