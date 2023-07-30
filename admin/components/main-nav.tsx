@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useParams, usePathname } from "next/navigation";
 import { ProductSelect } from "./product-select";
+import { OrderSelect } from "./order-select";
 
 export function MainNav({
   className,
@@ -15,7 +16,7 @@ export function MainNav({
   const routes = [
     {
       href: `/${params.storeId}`,
-      label: "Dashboard",
+      label: "Overview",
       active: pathname === `/${params.storeId}`,
     },
     {
@@ -23,11 +24,11 @@ export function MainNav({
       label: "Billboards",
       active: pathname === `/${params.storeId}/billboards`,
     },
-    {
-      href: `/${params.storeId}/categories`,
-      label: "Categories",
-      active: pathname === `/${params.storeId}/categories`,
-    },
+    // {
+    //   href: `/${params.storeId}/categories`,
+    //   label: "Categories",
+    //   active: pathname === `/${params.storeId}/categories`,
+    // },
     // {
     //   href: `/${params.storeId}/sizes`,
     //   label: "Sizes",
@@ -43,16 +44,16 @@ export function MainNav({
     //   label: "Products",
     //   active: pathname === `/${params.storeId}/products`,
     // },
-    {
-      href: `/${params.storeId}/orders`,
-      label: "Orders",
-      active: pathname === `/${params.storeId}/orders`,
-    },
+    // {
+    //   href: `/${params.storeId}/orders`,
+    //   label: "Orders",
+    //   active: pathname === `/${params.storeId}/orders`,
+    // },
     {
       href: `/${params.storeId}/settings`,
       label: "Settings",
       active: pathname === `/${params.storeId}/settings`,
-    }
+    },
   ];
 
   return (
@@ -71,7 +72,8 @@ export function MainNav({
           {route.label}
         </Link>
       ))}
-       <ProductSelect/>
+      <ProductSelect />
+      <OrderSelect />
     </nav>
   );
 }
