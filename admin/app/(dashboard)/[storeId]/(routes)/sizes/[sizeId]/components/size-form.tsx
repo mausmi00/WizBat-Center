@@ -48,7 +48,7 @@ export const SizeForm: React.FC<SizeFormProps> = ({ initialData }) => {
   const title = initialData ? "Edit size" : "Create size";
   const description = initialData ? "Edit a size" : "Add a new size";
   const toastMessage = initialData ? "Size updated" : "Size created";
-  const action = initialData ? "Save changes" : "Create";
+  const action = initialData ? "Save" : "Create";
 
   const form = useForm<SizeFormValues>({
     resolver: zodResolver(formSchema),

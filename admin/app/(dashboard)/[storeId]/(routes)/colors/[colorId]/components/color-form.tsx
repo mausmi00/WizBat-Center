@@ -50,7 +50,7 @@ export const ColorForm: React.FC<ColorFormProps> = ({ initialData }) => {
   const title = initialData ? "Edit color" : "Create color";
   const description = initialData ? "Edit a color" : "Add a new color";
   const toastMessage = initialData ? "Color updated" : "Color created";
-  const action = initialData ? "Save changes" : "Create";
+  const action = initialData ? "Save" : "Create";
 
   const form = useForm<ColorFormValues>({
     resolver: zodResolver(formSchema),

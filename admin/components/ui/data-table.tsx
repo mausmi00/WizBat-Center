@@ -21,6 +21,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { useState } from "react";
+import Image from "next/image";
+import { getCldImageUrl } from "next-cloudinary";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -45,6 +47,14 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
+  
+  const imageUrlCell = (text: any) => {
+    return text.includes("imageUrl") || text.includes("Image") ? true : false;
+  };
+
+  const imageCell = (text: any) => {
+    return text.includes("image") ? true : false;
+  };
 
   return (
     <div>
@@ -87,9 +97,27 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
+                      {imageUrlCell(cell.id) ? (
+                        <Image
+                          src={cell.getContext().getValue()}
+                          alt="Image"
+                          className="aspect-square object-cover rounded-md"
+                          height={45}
+                          width={45}
+                        />
+                      ) : imageCell(cell.id) ? (
+                        <Image
+                          src={cell.getContext().getValue().url}
+                          alt="Image"
+                          className="aspect-square object-cover rounded-md"
+                          height={45}
+                          width={45}
+                        />
+                      ) : (
+                        flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )
                       )}
                     </TableCell>
                   ))}

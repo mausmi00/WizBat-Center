@@ -75,7 +75,7 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
   const title = initialData ? "Edit product" : "Create product";
   const description = initialData ? "Edit product" : "Add a new product";
   const toastMessage = initialData ? "Product updated" : "Product created";
-  const action = initialData ? "Save changes" : "Create";
+  const action = initialData ? "Save" : "Create";
 
   const form = useForm<ProductFormValues>({
     resolver: zodResolver(formSchema),

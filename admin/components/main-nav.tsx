@@ -73,11 +73,12 @@ export function MainNav({
           {route.label}
         </Link>
       ))} */}
-      <NavigationComponents name="Overview" href="hell" />
+      <NavigationComponents name="Overview" href="" />
       <NavigationComponents name="Billboards" href="billboards" />
       <ProductSelect />
       <OrderSelect />
       <NavigationComponents name="Store Settings" href="settings" />
+      <NavigationComponents name="API Reference" href="api-reference" />
     </nav>
   );
 }

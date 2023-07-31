@@ -13,12 +13,17 @@ export type ProductColumn = {
   isFeatured: boolean;
   isArchived: boolean;
   createdAt: string;
+  image: string;
 };
 
 export const columns: ColumnDef<ProductColumn>[] = [
   {
     accessorKey: "name",
     header: "Name",
+  },
+  {
+    accessorKey: "image",
+    header: "Image",
   },
   {
     accessorKey: "isArchived",
