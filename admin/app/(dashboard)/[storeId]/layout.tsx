@@ -1,4 +1,5 @@
 import Navbar from "@/components/navbar";
+import ContentSeparator from "@/components/ui/sidebar";
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
@@ -30,7 +31,10 @@ export default async function DashboardLayout({
   return (
     <>
       <Navbar />
-      {children}
+      <div className="flex w-full">
+        <ContentSeparator />
+        <div>{children}</div>
+      </div>
     </>
   );
 }
