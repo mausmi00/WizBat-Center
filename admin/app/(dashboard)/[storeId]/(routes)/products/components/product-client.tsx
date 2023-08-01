@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import { ProductColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import ApiList from "@/components/ui/api-list";
+import HoverState from "@/components/ui/flowbite-table";
 
 interface ProductClientProps {
   data: ProductColumn[];
@@ -30,7 +31,8 @@ export const ProductClient: React.FC<ProductClientProps> = ({ data }) => {
         </Button>
       </div>
       <Separator />
-      <DataTable columns={columns} data={data} searchKey="name" />
+      <HoverState columns={columns} data={data} searchKey="name"/>
+      {/* <DataTable columns={columns} data={data} searchKey="name" /> */}
     </>
   );
 };

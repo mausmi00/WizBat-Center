@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import { SizeColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import ApiList from "@/components/ui/api-list";
+import HoverState from "@/components/ui/flowbite-table";
 
 interface SizesClientProps {
   data: SizeColumn[];
@@ -30,7 +31,8 @@ export const SizesClient: React.FC<SizesClientProps> = ({ data }) => {
         </Button>
       </div>
       <Separator />
-      <DataTable columns={columns} data={data} searchKey="name" />
+      <HoverState columns={columns} data={data} searchKey="name"/>
+      {/* <DataTable columns={columns} data={data} searchKey="name" /> */}
     </>
   );
 };

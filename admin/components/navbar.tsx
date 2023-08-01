@@ -22,12 +22,12 @@ const Navbar = async () => {
   });
 
   return (
-    <div className="top-0 z-100 sticky h-50">
+    <div className="border-b top-0 left-0 sticky bg-background z-99999999">
       <div className="flex h-16 items-center px-4">
-        <div className="flex ml-4">
+        {/* <div className="flex ml-4">
           <FcShop className="mr-2" size={25} />
           <h1 className="mr-20 font-bold font-mono text-xl">Shushpify</h1>
-        </div>
+        </div> */}
         {/* <MainNav className="mx-6" /> */}
         <div className="ml-auto flex items-center space-x-2">
           {/* <AiOutlineQq size={25} onClick={openSideSheet}/> */}

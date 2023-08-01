@@ -6,14 +6,15 @@ import { OrderColumn, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 
 interface OrderClientProps {
+  header: string;
   data: OrderColumn[];
 }
 
-export const OrderClient: React.FC<OrderClientProps> = ({ data }) => {
+export const OrderClient: React.FC<OrderClientProps> = ({ data, header }) => {
   return (
     <>
       <Heading
-        title={`Orders (${data.length})`}
+        title={`${header} (${data.length})`}
         description="Manage orders for your store"
       />
       <Separator />

@@ -15,13 +15,26 @@ import { redirect, useParams } from "next/navigation";
 import StoreSwitcher from "../store-switcher";
 import prismadb from "@/lib/prismadb";
 import { UserButton, auth } from "@clerk/nextjs";
+import Navbar from "../navbar";
+import { VscGraph } from "react-icons/vsc";
+import { FaRegImages } from "react-icons/fa";
+import { FiShoppingBag } from "react-icons/fi";
+import { CiShoppingTag } from "react-icons/ci";
+import { MdOutlineCategory } from "react-icons/md";
+import { IoMdResize } from "react-icons/io";
+import { MdOutlineColorLens } from "react-icons/md";
+import { BsCashCoin } from "react-icons/bs";
+import { AiOutlineShoppingCart, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { LiaCartPlusSolid } from "react-icons/lia";
+import { TbApi } from "react-icons/tb";
+import { FiSettings } from "react-icons/fi";
 
 const ContentSeparator = () => {
   const params = useParams();
 
   return (
-    <div className="top-0 z-2 sticky h-screen">
-      <Sidebar aria-label="Sidebar">
+    <div className="h-screen sticky top-0">
+      <Sidebar aria-label="Sidebar" className=" z-2">
         <Sidebar.Logo href="#" img="">
           Shushhopify
         </Sidebar.Logo>
@@ -32,53 +45,53 @@ const ContentSeparator = () => {
               <StoreSwitcher items={stores} />
             </div>
           </Sidebar.Item> */}
-            <Sidebar.Item href={`/${params.storeId}`} icon={HiChartPie}>
+            <Sidebar.Item href={`/${params.storeId}`} icon={VscGraph}>
               <p>Dashboard</p>
             </Sidebar.Item>
             <Sidebar.Item
               href={`/${params.storeId}/billboards`}
-              icon={HiViewBoards}
+              icon={FaRegImages}
             >
               <p>Billboards</p>
             </Sidebar.Item>
 
-            <Sidebar.Collapse icon={HiShoppingBag} label="Products">
-              <Sidebar.Item href={`/${params.storeId}/products`} icon={HiInbox}>
+            <Sidebar.Collapse icon={FiShoppingBag} label="Products">
+              <Sidebar.Item href={`/${params.storeId}/products`} icon={CiShoppingTag}>
                 All Products
               </Sidebar.Item>
               <Sidebar.Item
                 href={`/${params.storeId}/categories`}
-                icon={HiUser}
+                icon={MdOutlineCategory}
               >
                 Categories
               </Sidebar.Item>
               <Sidebar.Item
                 href={`/${params.storeId}/sizes`}
-                icon={HiShoppingBag}
+                icon={IoMdResize}
               >
                 Sizes
               </Sidebar.Item>
               <Sidebar.Item
                 href={`/${params.storeId}/colors`}
-                icon={HiArrowSmRight}
+                icon={MdOutlineColorLens}
               >
                 Colors
               </Sidebar.Item>
             </Sidebar.Collapse>
 
-            <Sidebar.Collapse icon={HiShoppingBag} label="Orders">
-              <Sidebar.Item href={`/${params.storeId}/orders`} icon={HiTable}>
+            <Sidebar.Collapse icon={AiOutlineShoppingCart} label="Orders">
+              <Sidebar.Item href={`/${params.storeId}/orders`} icon={LiaCartPlusSolid}>
                 All Orders
               </Sidebar.Item>
               <Sidebar.Item
-                href={`/${params.storeId}/drafts`}
-                icon={HiChartPie}
+                href={`/${params.storeId}/orders/drafts`}
+                icon={AiOutlineLoading3Quarters}
               >
                 In process
               </Sidebar.Item>
               <Sidebar.Item
-                href={`/${params.storeId}/sold`}
-                icon={HiViewBoards}
+                href={`/${params.storeId}/orders/sold`}
+                icon={BsCashCoin}
               >
                 Sold
               </Sidebar.Item>
@@ -88,11 +101,11 @@ const ContentSeparator = () => {
           <Sidebar.ItemGroup className="absolute bottom-1">
             <Sidebar.Item
               href={`/${params.storeId}/api-reference`}
-              icon={BiBuoy}
+              icon={TbApi}
             >
               <p>API Reference</p>
             </Sidebar.Item>
-            <Sidebar.Item href={`/${params.storeId}/settings`} icon={BiBuoy}>
+            <Sidebar.Item href={`/${params.storeId}/settings`} icon={FiSettings}>
               <p>Store Settings</p>
             </Sidebar.Item>
             <Sidebar.Item>
