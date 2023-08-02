@@ -49,10 +49,10 @@ const ContentSeparator = () => {
               <p>Dashboard</p>
             </Sidebar.Item>
             <Sidebar.Item
-              href={`/${params.storeId}/billboards`}
+              href={`/${params.storeId}/placards`}
               icon={FaRegImages}
             >
-              <p>Billboards</p>
+              <p>Placards</p>
             </Sidebar.Item>
 
             <Sidebar.Collapse icon={FiShoppingBag} label="Products">

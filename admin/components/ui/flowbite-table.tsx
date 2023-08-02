@@ -79,16 +79,16 @@ export function HoverState<TData, TValue>({
                           src={cell.getContext().getValue()}
                           alt="Image"
                           className="aspect-square object-cover rounded-md"
-                          height={45}
-                          width={45}
+                          height={100}
+                          width={100}
                         />
                       ) : imageCell(cell.id) ? (
                         <Image
                           src={cell.getContext().getValue().url}
                           alt="Image"
                           className="aspect-square object-cover rounded-md"
-                          height={45}
-                          width={45}
+                          height={100}
+                          width={100}
                         />
                       ) : (
                         flexRender(

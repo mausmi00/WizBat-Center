@@ -5,9 +5,6 @@ import { redirect } from "next/navigation";
 import prismadb from "@/lib/prismadb";
 import { ThemeToggle } from "@/components/theme-toggle";
 import SheetDisplay from "@/app/(dashboard)/[storeId]/(routes)/robin/components/sheetDisplay";
-import { FcShop } from "react-icons/fc";
-import { Select } from "./ui/select";
-import { ProductSelect } from "./product-select";
 
 const Navbar = async () => {
   const { userId } = auth();
