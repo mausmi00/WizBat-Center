@@ -37,7 +37,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         })
 
         exportDataAsCSV();
-        MemoryChain()
+        MemoryChain();
 
         return NextResponse.json(getMessages)
 

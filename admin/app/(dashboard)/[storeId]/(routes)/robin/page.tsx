@@ -1,15 +1,12 @@
 "use client";
 
-import { FieldValues, useForm } from "react-hook-form";
-import MessageInput from "./components/messageInput";
-import { useState } from "react";
-import Form from "./components/form";
+import MemoryChain from "@/app/api/[storeId]/robin/components/memoryChain";
 import SheetDisplay from "./components/sheetDisplay";
 
 const RobinPage = () => {
   return (
     <>
-      <SheetDisplay/>
+      <SheetDisplay />
     </>
   );
 };

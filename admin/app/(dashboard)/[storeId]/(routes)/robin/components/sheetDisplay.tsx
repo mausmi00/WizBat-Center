@@ -40,40 +40,9 @@ const SheetDisplay = () => {
   const params = useParams();
   const storeId = params?.storeId;
   globalThis.socket = useRef<WebSocket | null>(null);
-
-  //   const storeOwner = await prismadb.store.findUnique({
-  //     where: {
-  //       id: storeId,
-  //     },
-  //   });
-
-  //   const convoMessages = await prismadb.conversation.findMany({
-  //     where: {
-  //       userId: storeOwner?.userId,
-  //     },
-  //     include: {
-  //       messages: true,
-  //     },
-  //   });
-  //   const [show, setShow] = useState(false);
-
-  //   const onClick = () => {
-  //     setShow(!show);
-  //     console.log("show", show);
-  //   };
   let convoId = null;
 
   const onClose = () => {
-    // setIsLoading(true);
-    // axios
-    //   .delete(`/api/${storeId}/robin`)
-    //   .then((data) => {
-    //     console.log("data: ", data);
-    //     setMessages(null);
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
     setOpen(false);
     socket?.current?.close();
     setIsConnected(false);
@@ -82,6 +51,7 @@ const SheetDisplay = () => {
 
   const onConnect = useCallback(() => {
     console.log("name: ", globalThis.user?.firstName);
+    console.log("chain: ", globalThis.CHAIN);
     socket.current = new WebSocket(URL);
     console.log("socket.current.readyState: ", socket.current.readyState);
     socket.current.onopen = function () {
@@ -94,10 +64,7 @@ const SheetDisplay = () => {
       );
       socket.current?.addEventListener("close", onClose);
       socket.current?.addEventListener("message", (event: { data: string }) => {
-        // onSocketMessage(event.data);
-        // setTimeout(() => {
-          setNewMessageSent(true);
-        // }, 3);
+        setNewMessageSent(true);
         console.log("response: ", JSON.parse(event.data).message);
       });
     };

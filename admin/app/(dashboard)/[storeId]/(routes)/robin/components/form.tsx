@@ -9,6 +9,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { UserProfile, useUser } from "@clerk/nextjs";
 import getAiResponse from "@/app/api/[storeId]/robin/components/getAiResponse";
+import { ChainValues } from "langchain/dist/schema";
+
+declare global {
+  var agentResponse: ChainValues | null | undefined;
+}
 
 interface FormProps {
   storeId: string;
@@ -31,7 +36,7 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
   });
 
   const onSocketMessage = async (
-    body: string,
+    message: string,
     to: string | null | undefined
   ) => {
     if (globalThis.socket === null) {
@@ -41,7 +46,7 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
     globalThis.socket?.current?.send(
       JSON.stringify({
         action: "sendMessage",
-        message: body,
+        message: message,
         to,
       })
     );
@@ -53,24 +58,24 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
       .post(`/api/${storeId}/robin`, {
         ...data,
       })
-      .then(() => {
+      .then((response) => {
         onSocketMessage(data.message, globalThis.user?.firstName);
+        // onSocketMessage(response[1], globalThis.user?.firstName);
+        // agentResponseGenerated(data.message);
+        // onSocketMessage(globalThis.agentResponse, "Robin");
       })
       .catch(() => {
         toast.error("Something went wrong. Please refresh.");
-      })
+      });
   };
 
-  // const agentResponseGenerated = (message: string) => {
+  // const agentResponseGenerated = async (message: string) => {
   //   console.log("called");
-  //   console.log("chain before: ", global.CHAIN)
-  //   const response = getAiResponse(global.CHAIN, message);
+  //   console.log("chain before: ", global.CHAIN);
+  //   globalThis.agentResponse = await getAiResponse(global.CHAIN, message);
   //   axios
   //     .post(`/api/${storeId}/robin`, {
-  //       ...response,
-  //     })
-  //     .then(() => {
-  //       router.refresh();
+  //       ...globalThis.agentResponse,
   //     })
   //     .catch(() => {
   //       toast.error("Error occured while generating response.");

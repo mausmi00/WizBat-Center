@@ -9,6 +9,8 @@ import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { BufferMemory } from "langchain/memory";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 
+
+
 declare global {
     var CHAIN: any | null;
 }
@@ -29,7 +31,7 @@ const MemoryChain = async () => {
 
     // Embed and store in vector store
     let embeddings = new OpenAIEmbeddings({
-        openAIApiKey: "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"
+        openAIApiKey: "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"
     });
 
     let vectorstore = await MemoryVectorStore.fromDocuments(splitDocs, embeddings);
@@ -43,15 +45,15 @@ const MemoryChain = async () => {
     // creating model
     const model = new ChatOpenAI({
         modelName: "gpt-3.5-turbo",
-        openAIApiKey: "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"
+        openAIApiKey: "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"
     });
 
     //initializing chain
-    global.CHAIN = ConversationalRetrievalQAChain.fromLLM(model, vectorstore.asRetriever(), {
+    globalThis.CHAIN = ConversationalRetrievalQAChain.fromLLM(model, vectorstore.asRetriever(), {
         memory
     });
 
-    console.log("chain: ", global.CHAIN)
+    console.log("chain: ", globalThis.CHAIN)
     // const result = await chain.call({
     //     question: "how many rows of data do I have?"
     // });

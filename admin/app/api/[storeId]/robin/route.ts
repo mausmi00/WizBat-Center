@@ -46,7 +46,8 @@ export async function POST(request: Request) {
                 }
             });
 
-            const response = await getAiResponse(global.CHAIN, message);
+            const response = await getAiResponse(globalThis.CHAIN, message);
+            console.log("reponse getAi: ", response)
             const messageResponse = await prismadb.message.create({
                 data: {
                     body: response.text,
@@ -58,7 +59,7 @@ export async function POST(request: Request) {
                     }
                 }
             });
-            
+
             return NextResponse.json([newMessage, messageResponse])
         }
 
@@ -73,7 +74,8 @@ export async function POST(request: Request) {
             }
         });
 
-        const response = await getAiResponse(global.CHAIN, message);
+        const response = await getAiResponse(globalThis.CHAIN, message);
+        console.log("reponse getAi: ", response)
         const messageResponse = await prismadb.message.create({
             data: {
                 body: response.text,
@@ -85,6 +87,7 @@ export async function POST(request: Request) {
                 }
             }
         });
+        console.log("message: ", messageResponse)
 
         return NextResponse.json([newMessage, messageResponse])
 

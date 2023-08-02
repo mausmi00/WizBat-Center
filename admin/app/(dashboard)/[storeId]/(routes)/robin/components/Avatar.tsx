@@ -7,7 +7,7 @@ interface AvatarProps {
 }
 const Avatar: React.FC<AvatarProps> = ({ url }) => {
   url == undefined ? "/images/robin.jpg" : url;
-  console.log("url: ", url)
+  // console.log("url: ", url)
   if (!url) {
     return;
   }
