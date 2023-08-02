@@ -47,10 +47,10 @@ export async function POST(request: Request) {
             });
 
             const response = await getAiResponse(globalThis.CHAIN, message);
-            console.log("reponse getAi: ", response)
+            console.log("reponse getAi1: ", response)
             const messageResponse = await prismadb.message.create({
                 data: {
-                    body: response.text,
+                    body: response,
                     isAi: true,
                     conversation: {
                         connect: {
@@ -75,10 +75,10 @@ export async function POST(request: Request) {
         });
 
         const response = await getAiResponse(globalThis.CHAIN, message);
-        console.log("reponse getAi: ", response)
+        console.log("reponse getAi2: ", response)
         const messageResponse = await prismadb.message.create({
             data: {
-                body: response.text,
+                body: response,
                 isAi: true,
                 conversation: {
                     connect: {

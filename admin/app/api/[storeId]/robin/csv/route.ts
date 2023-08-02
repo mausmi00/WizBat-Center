@@ -9,6 +9,7 @@ interface IParams {
 
 export async function GET(request: Request, { params }: { params: IParams }) {
     const { storeId } = params;
+    MemoryChain();
     // const {user} = useUser();
     // console.log("user image: ", user?.imageUrl);
     try {
@@ -37,7 +38,6 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         })
 
         exportDataAsCSV();
-        MemoryChain();
 
         return NextResponse.json(getMessages)
 

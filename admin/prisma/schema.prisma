@@ -145,7 +145,7 @@ model Conversation {
 
 model Message {
   id             String       @id @default(uuid())
-  body           String?
+  body           String?      @db.VarChar(5000)
   conversationId String
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   createdAt      DateTime     @default(now())
