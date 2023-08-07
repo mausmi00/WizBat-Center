@@ -1,5 +1,6 @@
 "use client";
 
+import SheetDisplay from "@/app/(routes)/robin/components/sheetDisplay";
 import Button from "@/components/ui/button";
 import useCart from "@/hooks/useCart";
 import { ShoppingBag } from "lucide-react";
@@ -31,6 +32,7 @@ const NavbarActions = () => {
           {cart.items.length}
         </span>
       </Button>
+      <SheetDisplay />
     </div>
   );
 };

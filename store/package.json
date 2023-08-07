@@ -10,24 +10,34 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
+    "@prisma/client": "^5.1.1",
+    "@radix-ui/react-dialog": "^1.0.4",
     "@types/node": "20.4.2",
     "@types/react": "18.2.15",
     "@types/react-dom": "18.2.7",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
+    "class-variance-authority": "^0.7.0",
     "clsx": "^1.2.1",
+    "d3-dsv": "^2.0.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
+    "langchain": "^0.0.114",
     "lucide-react": "^0.260.0",
     "next": "13.4.9",
     "postcss": "8.4.26",
     "query-string": "^8.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.45.2",
     "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.10.1",
     "tailwind-merge": "^1.13.2",
     "tailwindcss": "3.3.3",
     "typescript": "5.1.6",
     "zustand": "^4.3.9"
+  },
+  "devDependencies": {
+    "prisma": "^5.1.1"
   }
 }
