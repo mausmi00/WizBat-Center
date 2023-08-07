@@ -8,9 +8,12 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ChainValues } from "langchain/dist/schema";
+import { Product } from "@/types";
 
 declare global {
   var agentResponse: ChainValues | null | undefined;
+  var ingredientsInStore: Product[] | null | undefined;
+  var ingredientsNotInStore: string[] | null | undefined;
 }
 
 const Form = () => {
@@ -53,6 +56,10 @@ const Form = () => {
         ...data,
       })
       .then((response) => {
+        console.log("within: ", response);
+        globalThis.ingredientsInStore = response.data[2];
+        globalThis.ingredientsNotInStore = response.data[3];
+        console.log("in store: ", globalThis.ingredientsInStore);
         onSocketMessage(data.message, "user");
         // onSocketMessage(response[1], globalThis.user?.firstName);
         // agentResponseGenerated(data.message);

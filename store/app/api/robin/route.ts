@@ -63,7 +63,7 @@ export async function POST(request: Request) {
                 }
             });
 
-            return NextResponse.json([newMessage, messageResponse])
+            return NextResponse.json([newMessage, messageResponse, globalThis.ingredientsInStore, globalThis.ingredientsNotInStore])
         }
 
         const newMessage = await prismadb.message.create({
@@ -92,7 +92,7 @@ export async function POST(request: Request) {
         });
         console.log("message: ", messageResponse)
 
-        return NextResponse.json([newMessage, messageResponse])
+        return NextResponse.json([newMessage, messageResponse, globalThis.ingredientsInStore, globalThis.ingredientsNotInStore])
 
     } catch (error: any) {
         console.log(error, "ROBIN_MESSAGE_CREATION_ERROR")
