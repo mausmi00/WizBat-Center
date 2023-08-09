@@ -4,31 +4,66 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 interface UseCartStore {
+    // items: Product[];
     items: Product[];
-    addItem: (data: Product) => void;
+    dishes: string[];
+    notAvailableItems: string[];
+    addItem: (data: Product | string) => void;
     removeItem: (id: string) => void;
     removeAll: () => void;
+    addDish: (data: string) => boolean;
+    getItems: () => number;
 }
 
 const useCart = create(
     persist<UseCartStore>((set, get) => ({
         items: [],
-        addItem: (data: Product) => {
+        notAvailableItems: [],
+        dishes: [],
+        addItem: (data: any) => {
             const currentItems = get().items;
-            const existingItem = currentItems.find((item) => item.id === data.id);
-
-            if (existingItem) {
-                return toast("Item already in cart.");
+            if (data.toString().includes("Item out of stock:") || data.toString().includes("%")) {
+                // set({ items: [...get().items, data] });
+                // console.log("out of stock item: ", data);
+                set({ notAvailableItems: [...get().notAvailableItems, data] })
             }
-            set({ items: [...get().items, data] });
-            toast.success("Item added to cart");
+            else {
+                const existingItem = currentItems.find((item) => item.id === data.id);
+
+                if (existingItem) {
+                    return toast("Item already in cart.");
+                }
+                console.log("in stock: ", data);
+                set({ items: [...get().items, data] });
+            }
+            // toast.success("Item added to cart");
+        },
+        getItems: () => {
+            // console.log("ietms none: ", get().notAvailableItems.length)
+            return get().notAvailableItems.length;
+        },
+        addDish: (data: any) => {
+            if (get().notAvailableItems.length == 1) {
+                set({ dishes: [] });
+            }
+            const currentDish = get().dishes;
+            const existingDish = currentDish.find((dish) => dish === data);
+
+            if (existingDish) {
+                toast.error("Dish ingredients already in cart")
+                return false
+            }
+            set({ dishes: [...get().dishes, data] });
+            toast.success("Dish ingredients added to cart");
+            return true;
         },
 
         removeItem: (id: string) => {
             set({ items: [...get().items.filter((item) => item.id !== id)] });
+            set({ notAvailableItems: [...get().notAvailableItems.filter((item) => item !== id)] })
             toast.success("Item removed from the cart");
         },
-        removeAll: () => set({ items: [] }),
+        removeAll: () => set({ items: [], notAvailableItems: [], dishes: [] }),
     }),
         {
             name: "cart-storage",

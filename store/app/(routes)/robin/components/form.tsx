@@ -1,14 +1,12 @@
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import MessageInput from "./messageInput";
-import { HiPaperAirplane, HiEllipsisHorizontal } from "react-icons/hi2";
-import { Conversation } from "@prisma/client";
-import prismadb from "@/lib/prismadb";
-import { useRouter } from "next/navigation";
+import { HiPaperAirplane } from "react-icons/hi2";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ChainValues } from "langchain/dist/schema";
 import { Product } from "@/types";
+import useCart from "@/hooks/useCart";
 
 declare global {
   var agentResponse: ChainValues | null | undefined;
@@ -18,8 +16,7 @@ declare global {
 
 const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
-
-  const router = useRouter();
+  const cart = useCart();
 
   const {
     register,
@@ -59,7 +56,9 @@ const Form = () => {
         console.log("within: ", response);
         globalThis.ingredientsInStore = response.data[2];
         globalThis.ingredientsNotInStore = response.data[3];
-        console.log("in store: ", globalThis.ingredientsInStore);
+        // cart.removeAll();
+        // console.log("data sent: ", data)
+        cartAdd(data.message);
         onSocketMessage(data.message, "user");
         // onSocketMessage(response[1], globalThis.user?.firstName);
         // agentResponseGenerated(data.message);
@@ -70,18 +69,35 @@ const Form = () => {
       });
   };
 
-  // const agentResponseGenerated = async (message: string) => {
-  //   console.log("called");
-  //   console.log("chain before: ", global.CHAIN);
-  //   globalThis.agentResponse = await getAiResponse(global.CHAIN, message);
-  //   axios
-  //     .post(`/api/${storeId}/robin`, {
-  //       ...globalThis.agentResponse,
-  //     })
-  //     .catch(() => {
-  //       toast.error("Error occured while generating response.");
-  //     });
-  // };
+  const cartAdd = (dishName: string) => {
+    const added: boolean = cart.addDish(dishName);
+    if (added === true) {
+      if (
+        globalThis.ingredientsInStore !== null &&
+        globalThis.ingredientsInStore !== undefined
+      ) {
+        for (let ingre of globalThis.ingredientsInStore) {
+          cart.addItem(ingre);
+          console.log("added found: ", ingre.name);
+          // }
+        }
+      }
+
+      if (
+        globalThis.ingredientsNotInStore !== null &&
+        globalThis.ingredientsNotInStore !== undefined
+      ) {
+        // push the dishe's name
+        const updatedDishName = `%${dishName}`;
+        // globalThis.ingredientsNotInStore.push(dishName);
+        cart.addItem(updatedDishName);
+        for (let ingre of globalThis.ingredientsNotInStore) {
+          const noIngre = `Item out of stock: ${ingre}`;
+          cart.addItem(noIngre);
+        }
+      }
+    }
+  };
 
   const defaultMessage = (
     <form
