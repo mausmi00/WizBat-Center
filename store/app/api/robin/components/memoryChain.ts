@@ -5,7 +5,7 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
-import { ConversationChain, ConversationalRetrievalQAChain } from "langchain/chains";
+import { ConversationChain, ConversationalRetrievalQAChain, LLMChain } from "langchain/chains";
 import { BufferMemory } from "langchain/memory";
 import { ChatOpenAI } from "langchain/chat_models/openai";
 import {
@@ -13,6 +13,7 @@ import {
     HumanMessagePromptTemplate,
     SystemMessagePromptTemplate,
     MessagesPlaceholder,
+    PromptTemplate,
 } from "langchain/prompts";
 
 
@@ -20,6 +21,7 @@ import {
 declare global {
     var CHAIN: any | null;
     var CSV_CHAIN: any | null;
+    var SECOND_AGENT_CHAIN: any | null;
 }
 
 const MemoryChain = async () => {
@@ -44,16 +46,16 @@ const MemoryChain = async () => {
     let vectorstore = await MemoryVectorStore.fromDocuments(splitDocs, embeddings);
 
     // memory
-    const memory = new BufferMemory({
+    let memory = new BufferMemory({
         memoryKey: "chat_history",
         returnMessages: true,
     });
 
-    // creating model
     const model = new ChatOpenAI({
-        temperature: 1,
+        temperature: 0,
         modelName: "gpt-3.5-turbo",
-        openAIApiKey: "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"
+        openAIApiKey: "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",
+
     });
 
     //initializing chain
@@ -62,20 +64,42 @@ const MemoryChain = async () => {
     });
 
     let chatPrompt = null;
+    // let second_agent_chatPrompt = null;
 
+
+    // "You have 2 modes, chat mode and ingredient provider mode. When the user talks with you about general things, be in chat mode and add prefix 'Chat Mode'. As soon as he tells you about a dish, you feel the need to go to ingredient mode. Add prefix 'Ingredient Mode' In this mode you  just list out ingredients that can be passed to a database (No special characters). Separate each ingredient with a comma without any other special characters. Follow the format: Ingredient Mode - Banana, apple, milk, turmeric")
     chatPrompt = ChatPromptTemplate.fromPromptMessages([
         SystemMessagePromptTemplate.fromTemplate(
-            "Please provide a precise list of ingredients needed to make a particular dish. Separate each ingredient with a comma. For example: 'ingredient 1, ingredient 2, ingredient 3, ...' Thank you!"
-        ),
+            "You have 3 modes cart mode, chat mode, ingredient provider mode. When the user talks with you about general things, be in chat mode and add prefix 'Chat Mode:'.  As soon as he tells you to add the ingredients to the cart go to cart mode if they don't want to add to cart then go back to chat mode. Only go to cart mode if the ingredients have to be added else don't. Add prefix 'Cart Mode:'. As soon as he tells you about a dish, you feel the need to go to ingredient mode and end with the line 'Do you want to add these ingredients to the cart?' at the end. Add prefix 'Ingredient Mode:(name of the dish):' In this mode you just list out ingredients that can be passed to a database (No special characters). Separate each ingredient with a comma without any other special characters. Follow the format: Ingredient Mode: Banana Milkshake: Banana, apple, milk, turmeric."),
         new MessagesPlaceholder("history"),
         HumanMessagePromptTemplate.fromTemplate("{input}"),
     ]);
+
+    // second_agent_chatPrompt = ChatPromptTemplate.fromPromptMessages([
+    //     SystemMessagePromptTemplate.fromTemplate(
+    //         "If provided with a list of ingredients return yes, else say no. Just respond with 1 word."),
+    //     HumanMessagePromptTemplate.fromTemplate("{input}"),
+    // ]);
+
+    // const template = "Act like an agent that decides whether the given input is a list of food ingredients or not by replying 'Yes' or 'No'. Just respond with 'yes' or 'no'. Just 1 word."
+    // const template = "Respond with yes if the provided input is a list of ingredients and no if its just a regular conversation. Just respond with 'yes' or 'no'"
+    // const systemMessagePrompt = SystemMessagePromptTemplate.fromTemplate(template);
+    // const humanTemplate = "{input}";
+    // const humanMessagePrompt = HumanMessagePromptTemplate.fromTemplate(humanTemplate);
+
+    // second_agent_chatPrompt = ChatPromptTemplate.fromPromptMessages([systemMessagePrompt, humanMessagePrompt]);
 
     globalThis.CHAIN = new ConversationChain({
         memory: new BufferMemory({ returnMessages: true, memoryKey: "history" }),
         prompt: chatPrompt,
         llm: model,
     });
+
+    // globalThis.SECOND_AGENT_CHAIN = new LLMChain({
+    //     llm: model,
+    //     prompt: second_agent_chatPrompt
+    // });
+
 
     // console.log("chain: ", globalThis.CHAIN)
     // const result = await chain.call({

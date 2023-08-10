@@ -6,6 +6,7 @@ const AddIngredientsToCart = async (input: string[]) => {
     // const archivedProducts = await getProducts({ isFeatured: false })
     let flag = 0;
     for (let ingre of input) {
+        ingre = ingre.toLowerCase();
         flag = 0;
         for (let product of products) {
             if (product.name === ingre) {

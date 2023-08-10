@@ -13,11 +13,13 @@ declare global {
   var agentResponse: ChainValues | null | undefined;
   var ingredientsInStore: Product[] | null | undefined;
   var ingredientsNotInStore: string[] | null | undefined;
+  var ingredientsAdded: boolean | null | undefined;
 }
 
 const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
   const cart = useCart();
+  let dishName: string = "";
 
   const {
     register,
@@ -59,9 +61,22 @@ const Form = () => {
         console.log("within: ", response);
         globalThis.ingredientsInStore = response.data[2];
         globalThis.ingredientsNotInStore = response.data[3];
-        // cart.removeAll();
-        // console.log("data sent: ", data)
-        cartAdd(data.message);
+        globalThis.ingredientsAdded = response.data[4];
+        dishName = response.data[5];
+
+        if (globalThis.ingredientsAdded === true) {
+          // const message = "Add ingredients to cart?";
+          // onSocketMessage(message, "user").then(() => {
+          //   axios.post(`/api/robin`, {
+          //     message,
+          //   }).then((response) => {
+
+          //   })
+          // });
+          // cart.removeAll();
+          // console.log("data sent: ", data)
+          cartAdd();
+        }
         onSocketMessage(data.message, "user");
         // onSocketMessage(response[1], globalThis.user?.firstName);
         // agentResponseGenerated(data.message);
@@ -72,7 +87,7 @@ const Form = () => {
       });
   };
 
-  const cartAdd = (dishName: string) => {
+  const cartAdd = () => {
     const added: boolean = cart.addDish(dishName);
     if (added === true) {
       if (

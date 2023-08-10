@@ -28,7 +28,7 @@ export async function POST(request: Request) {
                 userId: globalThis.userId
             }
         });
-        console.log("conversation: ", conversation);
+        // console.log("conversation: ", conversation);
 
         if (conversation.length == 0) {
             const newConversation = await prismadb.conversation.create({
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
                     userId: globalThis.userId
                 }
             })
-            console.log("new conversation: ", newConversation)
+            // console.log("new conversation: ", newConversation)
 
             const newMessage = await prismadb.message.create({
                 data: {
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
             });
 
             const response = await getAiResponse(globalThis.CHAIN, message);
-            console.log("reponse getAi1: ", response)
+            // console.log("reponse getAi1: ", response)
             const messageResponse = await prismadb.message.create({
                 data: {
                     body: response,
@@ -63,7 +63,7 @@ export async function POST(request: Request) {
                 }
             });
 
-            return NextResponse.json([newMessage, messageResponse, globalThis.ingredientsInStore, globalThis.ingredientsNotInStore])
+            return NextResponse.json([newMessage, messageResponse, globalThis.ingredientsInStore, globalThis.ingredientsNotInStore, globalThis.ingredientsAdded, globalThis.dishName])
         }
 
         const newMessage = await prismadb.message.create({
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
         });
 
         const response = await getAiResponse(globalThis.CHAIN, message);
-        console.log("reponse getAi2: ", response)
+        // console.log("reponse getAi2: ", response)
         const messageResponse = await prismadb.message.create({
             data: {
                 body: response,
@@ -90,9 +90,9 @@ export async function POST(request: Request) {
                 }
             }
         });
-        console.log("message: ", messageResponse)
+        // console.log("message: ", messageResponse)
 
-        return NextResponse.json([newMessage, messageResponse, globalThis.ingredientsInStore, globalThis.ingredientsNotInStore])
+        return NextResponse.json([newMessage, messageResponse, globalThis.ingredientsInStore, globalThis.ingredientsNotInStore, globalThis.ingredientsAdded, globalThis.dishName])
 
     } catch (error: any) {
         console.log(error, "ROBIN_MESSAGE_CREATION_ERROR")
