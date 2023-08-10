@@ -19,6 +19,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import Form from "./form";
 import clsx from "clsx";
+import LoadingModal from "@/components/loading-modal";
 
 declare global {
   var socket: any;
@@ -56,7 +57,7 @@ const SheetDisplay = () => {
       socket.current?.send(
         JSON.stringify({
           action: "setName",
-          name: "user"
+          name: "user",
         })
       );
       socket.current?.addEventListener("close", onClose);
@@ -111,7 +112,7 @@ const SheetDisplay = () => {
       <Sheet open={open}>
         <SheetTrigger>
           {isLoading ? (
-            <AiOutlineQq size={25} className={clsx(`cursor-wait`)} />
+            <LoadingModal />
           ) : (
             <AiOutlineQq
               size={25}

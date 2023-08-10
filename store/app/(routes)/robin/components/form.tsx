@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import MessageInput from "./messageInput";
 import { HiPaperAirplane } from "react-icons/hi2";
+import { SlOptions } from "react-icons/sl";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ChainValues } from "langchain/dist/schema";
@@ -44,9 +45,11 @@ const Form = () => {
         to,
       })
     );
+    setIsLoading(false);
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(true);
     setValue("message", "", { shouldValidate: true });
     axios
       .post(`/api/robin`, {
@@ -104,26 +107,51 @@ const Form = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex items-center gap-2 w-full"
     >
-      <MessageInput
-        id="message"
-        register={register}
-        errors={errors}
-        required
-        disabled={isLoading}
-        placeholder="Ask anything..."
-      />
-      <button
-        type="submit"
-        className="
+      {isLoading ? (
+        <>
+          <MessageInput
+            id="message"
+            register={register}
+            errors={errors}
+            required
+            disabled={true}
+            placeholder="Robin is typing..."
+          />
+          <button
+            type="submit"
+            disabled
+            className="
+    rounded-full
+    p-2
+    bg-[#66FCF1]"
+          >
+            <SlOptions size={18} className="text-[#1F2833]" />
+          </button>
+        </>
+      ) : (
+        <>
+          <MessageInput
+            id="message"
+            register={register}
+            errors={errors}
+            required
+            disabled={false}
+            placeholder="Ask anything..."
+          />
+          <button
+            type="submit"
+            className="
     rounded-full
     p-2
     bg-[#66FCF1]
     cursor-pointer
     hover:bg-[#45A29E]
     transition"
-      >
-        <HiPaperAirplane size={18} className="text-[#1F2833]" />
-      </button>
+          >
+            <HiPaperAirplane size={18} className="text-[#1F2833]" />
+          </button>
+        </>
+      )}
     </form>
   );
 
