@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request,
     { params }: { params: { productId: string } }) {
     try {
-
         if (!params.productId) {
             return new NextResponse("Product ID is required", { status: 400 });
         }
@@ -17,15 +16,15 @@ export async function GET(req: Request,
             include: {
                 images: true,
                 category: true,
-                size: true,
-                color: true
+                // size: true,
+                // color: true
             }
         });
 
-        return NextResponse.json(product)
+        return NextResponse.json(product);
     } catch (error) {
         console.log('[PRODUCT_GET]', error);
-        return new NextResponse("Internal error", { status: 500 })
+        return new NextResponse("Internal error", { status: 500 });
     }
 }
 
@@ -35,7 +34,7 @@ export async function PATCH(req: Request,
         const { userId } = auth();
         const body = await req.json();
 
-        const { name, price, categoryId, colorId, sizeId, images, isFeatured, isArchived } = body;
+        const { name, price, categoryId, images, isFeatured, isArchived } = body;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -56,13 +55,13 @@ export async function PATCH(req: Request,
             return new NextResponse("Category id is required", { status: 400 })
         }
 
-        if (!sizeId) {
-            return new NextResponse("Size id is required", { status: 400 })
-        }
+        // if (!sizeId) {
+        //     return new NextResponse("Size id is required", { status: 400 })
+        // }
 
-        if (!colorId) {
-            return new NextResponse("Color id is required", { status: 400 })
-        }
+        // if (!colorId) {
+        //     return new NextResponse("Color id is required", { status: 400 })
+        // }
 
         if (!params.storeId) {
             return new NextResponse("Store id is required", { status: 400 })
@@ -87,8 +86,8 @@ export async function PATCH(req: Request,
                 name,
                 price,
                 categoryId,
-                colorId,
-                sizeId,
+                // colorId,
+                // sizeId,
                 images: {
                     deleteMany: {},
                 },

@@ -29,14 +29,6 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             return new NextResponse("Category id is required", { status: 400 })
         }
 
-        if (!sizeId) {
-            return new NextResponse("Size id is required", { status: 400 })
-        }
-
-        if (!colorId) {
-            return new NextResponse("Color id is required", { status: 400 })
-        }
-
         if (!params.storeId) {
             return new NextResponse("Store id is required", { status: 400 })
         }
@@ -59,13 +51,11 @@ export async function POST(req: Request, { params }: { params: { storeId: string
                 isFeatured,
                 isArchived,
                 categoryId,
-                colorId,
-                sizeId,
                 storeId: params.storeId,
                 images: {
                     createMany: {
                         data: [
-                            ...images.map((image: { url: string }) => image)
+                            ...images.map((image: { url: string; }) => image)
                         ]
                     }
                 }
@@ -99,16 +89,12 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
             where: {
                 storeId: params.storeId,
                 categoryId,
-                colorId,
-                sizeId,
                 isFeatured: isFeatured ? true : undefined,
                 isArchived: false,
             },
             include: {
                 images: true,
                 category: true,
-                color: true,
-                size: true
             },
             orderBy: {
                 createdAt: 'desc'

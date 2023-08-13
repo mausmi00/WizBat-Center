@@ -28,12 +28,12 @@ const ApiReference = () => {
         <Heading title="Categories API" description="API calls for Categories" />
         <ApiList entityName="categories" entityIdName="categoryId" />
         <Separator />
-        <Heading title="Sizes API" description="API calls for Sizes" />
+        {/* <Heading title="Sizes API" description="API calls for Sizes" />
         <ApiList entityName="sizes" entityIdName="sizeId" />
         <Separator />
         <Heading title="Colors API" description="API calls for Colors" />
         <ApiList entityName="colors" entityIdName="colorId" />
-        <Separator />
+        <Separator /> */}
       </div>
     </div>
   );

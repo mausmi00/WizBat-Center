@@ -65,7 +65,7 @@ const ContentSeparator = () => {
               >
                 Categories
               </Sidebar.Item>
-              <Sidebar.Item
+              {/* <Sidebar.Item
                 href={`/${params.storeId}/sizes`}
                 icon={IoMdResize}
               >
@@ -76,7 +76,7 @@ const ContentSeparator = () => {
                 icon={MdOutlineColorLens}
               >
                 Colors
-              </Sidebar.Item>
+              </Sidebar.Item> */}
             </Sidebar.Collapse>
 
             <Sidebar.Collapse icon={AiOutlineShoppingCart} label="Orders">

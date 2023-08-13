@@ -1,69 +1,69 @@
-"use client";
+// "use client";
 
-import Button from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Color, Size } from "@/types";
-import { useRouter, useSearchParams } from "next/navigation";
-import qs from "query-string";
+// import Button from "@/components/ui/button";
+// import { cn } from "@/lib/utils";
+// // import { Color, Size } from "@/types";
+// import { useRouter, useSearchParams } from "next/navigation";
+// import qs from "query-string";
 
-interface FilterProps {
-  data: (Size | Color)[];
-  name: string;
-  valueKey: string;
-}
+// interface FilterProps {
+//   // data: (Size | Color)[];
+//   name: string;
+//   valueKey: string;
+// }
 
-const Filter: React.FC<FilterProps> = ({ data, name, valueKey }) => {
-  // returns the search params of the url
-  const searchParams = useSearchParams();
-  const router = useRouter();
+// const Filter: React.FC<FilterProps> = ({ name, valueKey }) => {
+//   // returns the search params of the url
+//   const searchParams = useSearchParams();
+//   const router = useRouter();
 
-  // return the value of the seach param of the url
-  const selectedValue = searchParams.get(valueKey);
+//   // return the value of the seach param of the url
+//   const selectedValue = searchParams.get(valueKey);
 
-  const onClick = (id: string) => {
-    const current = qs.parse(searchParams.toString());
-    const query = {
-      ...current,
-      [valueKey]: id,
-    };
+//   const onClick = (id: string) => {
+//     const current = qs.parse(searchParams.toString());
+//     const query = {
+//       ...current,
+//       [valueKey]: id,
+//     };
 
-    // user clicked on the filter that's currently active (user wants to remove that filter)
-    if (current[valueKey] === id) {
-      query[valueKey] = null;
-    }
+//     // user clicked on the filter that's currently active (user wants to remove that filter)
+//     if (current[valueKey] === id) {
+//       query[valueKey] = null;
+//     }
 
-    const url = qs.stringifyUrl(
-      {
-        url: window.location.href,
-        query,
-      },
-      { skipNull: true }
-    );
+//     const url = qs.stringifyUrl(
+//       {
+//         url: window.location.href,
+//         query,
+//       },
+//       { skipNull: true }
+//     );
 
-    router.push(url);
-  };
+//     router.push(url);
+//   };
 
-  return (
-    <div className="mb-8">
-      <h3 className="text-lg font-semibold">{name}</h3>
-      <hr className="my-4" />
-      <div className="flex flex-wrap gap-2">
-        {data.map((filter) => (
-          <div key={filter.id} className="flex items-center">
-            <Button
-              className={cn(
-                "rounded-md text-sm text-gray-800 p-2 bg-white border border-gray-300",
-                selectedValue === filter.id && "bg-black text-white"
-              )}
-              onClick={() => onClick(filter.id)}
-            >
-              {filter.name}
-            </Button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="mb-8">
+//       <h3 className="text-lg font-semibold">{name}</h3>
+//       <hr className="my-4" />
+//       <div className="flex flex-wrap gap-2">
+//         {data.map((filter) => (
+//           <div key={filter.id} className="flex items-center">
+//             <Button
+//               className={cn(
+//                 "rounded-md text-sm text-gray-800 p-2 bg-white border border-gray-300",
+//                 selectedValue === filter.id && "bg-black text-white"
+//               )}
+//               onClick={() => onClick(filter.id)}
+//             >
+//               {filter.name}
+//             </Button>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+// };
 
-export default Filter;
+// export default Filter;
