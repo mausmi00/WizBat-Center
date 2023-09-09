@@ -1,10 +1,15 @@
 "use client";
 
 import { ImagePlus, Trash } from "lucide-react";
-import { CldUploadWidget } from "next-cloudinary";
+import { CldUploadWidget, CldImage, getCldImageUrl } from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { Button } from "./button";
 import Image from "next/image";
+import { constructCloudinaryUrl } from "@cloudinary-util/url-loader";
+import cloudinary from "next-cloudinary";
+import ImageGenerator from "../imageGen/image-generator";
+import axios from "axios";
+import { Configuration, OpenAIApi } from "openai";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -25,13 +30,70 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     setIsMounted(true);
   }, []);
 
-  const onUplaod = (result: any) => {
+  const onUpload = (result: any) => {
     onChange(result.info.secure_url);
   };
 
   if (!isMounted) {
     return null;
   }
+
+  const imageGenerator = async () => {
+    // const configuration = new Configuration({
+    //   apiKey: process.env.OPENAI_API_KEY_IMAGE_GEN,
+    // });
+
+    const openai = new OpenAIApi(configuration);
+    let response = await openai
+      .createImage({
+        prompt: "test",
+        n: 1,
+        size: "256x256",
+      })
+      .then(async (response) => {
+        let generated_url = response.data.data[0].url;
+        if (generated_url !== undefined) {
+          let image_url: string = generated_url;
+          const data = new FormData();
+          data.append("file", image_url);
+          data.append("upload_preset", "t3tev8mo");
+
+          await axios
+            .post(
+              "https://api.cloudinary.com/v1_1/doxhicxh0/image/upload",
+              data
+            )
+            .then((response) => {
+              console.log("final repsonse is: ", response);
+              onChange(response.data.url);
+              console.log("cloud url: ", response.data.url);
+            });
+        }
+      });
+  };
+
+  // const url = constructCloudinaryUrl({
+  //   options: {
+  //     src: 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-zPPSy8C6avKOolzJnjmd2HjY/user-bNID8zWt6W85dzh6FMwgr2jC/img-s8YwbYiSWVDgIFAobMEqYM4E.png?st=2023-09-07T21%3A44%3A49Z&se=2023-09-07T23%3A44%3A49Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-07T18%3A18%3A58Z&ske=2023-09-08T18%3A18%3A58Z&sks=b&skv=2021-08-06&sig=Kyiu5oSGQZmBKwXw2AbydT0U3r1fv4t6g4CISHIYW7U%3D',
+  //     width: 256,
+  //     height: 256
+  //   },
+  //   config: {
+  //     cloud: {
+  //       cloudName: 'doxhicxh0'
+  //     }
+  //   }
+  // });
+
+  // let cloud_url = getCldImageUrl({
+  //   height: 256,
+  //   width: 256,
+  //   src: 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-zPPSy8C6avKOolzJnjmd2HjY/user-bNID8zWt6W85dzh6FMwgr2jC/img-cS4tP5xPbmldOclAipZNxJZu.png?st=2023-09-07T20%3A42%3A33Z&se=2023-09-07T22%3A42%3A33Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-07T18%3A16%3A02Z&ske=2023-09-08T18%3A16%3A02Z&sks=b&skv=2021-08-06&sig=hRM9j9JpIWIOJLLBs9npfA3Os6isEADEi4PNSNWjgJk%3D'
+
+  // });
+
+  // let updated_url =
+  //   "https://res.cloudinary.com/doxhicxh0/image/upload/https%3A%2F%2Foaidalleapiprodscus.blob.core.windows.net%2Fprivate%2Forg-zPPSy8C6avKOolzJnjmd2HjY%2Fuser-bNID8zWt6W85dzh6FMwgr2jC%2Fimg-cS4tP5xPbmldOclAipZNxJZu.png%3Fst%3D2023-09-07T20%253A42%253A33Z%26se%3D2023-09-07T22%253A42%253A33Z%26sp%3Dr%26sv%3D2021-08-06%26sr%3Db%26rscd%3Dinline%26rsct%3Dimage%2Fpng%26skoid%3D6aaadede-4fb3-4698-a8f6-684d7786b067%26sktid%3Da48cca56-e6da-484e-a814-9c849652bcb3%26skt%3D2023-09-07T18%253A16%253A02Z%26ske%3D2023-09-08T18%253A16%253A02Z%26sks%3Db%26skv%3D2021-08-06%26sig%3DhRM9j9JpIWIOJLLBs9npfA3Os6isEADEi4PNSNWjgJk%253D";
 
   return (
     <div>
@@ -45,7 +107,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               <Button
                 type="button"
                 onClick={() => onRemove(url)}
-                variant="destructive" 
+                variant="destructive"
                 size="icon"
               >
                 <Trash className="h-4 w-4" />
@@ -55,21 +117,50 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           </div>
         ))}
       </div>
-      <CldUploadWidget onUpload={onUplaod} uploadPreset="t3tev8mo">
+      <CldUploadWidget onUpload={onUpload} uploadPreset="t3tev8mo">
         {({ open }) => {
           const onClick = () => {
             open();
           };
+          const onClickImageGenerator = async () => {
+            // const image_url: string = ImageGenerator();
+
+            imageGenerator();
+
+            // <CldImage src="
+            // https://oaidalleapiprodscus.blob.core.windows.net/private/org-zPPSy8C6avKOolzJnjmd2HjY/user-bNID8zWt6W85dzh6FMwgr2jC/img-cLQMEdYs9SbnqPEvjawRak2X.png?st=2023-09-04T18%3A57%3A59Z&se=2023-09-04T20%3A57%3A59Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-04T18%3A49%3A38Z&ske=2023-09-05T18%3A49%3A38Z&sks=b&skv=2021-08-06&sig=dodRlsrPXHMroQgh1UIJoiu/MEgYt7P26eaLxbYFbQg%3D
+            // " alt="" uploadPreset="t3tev8mo"/>
+            // <CldUploadWidget onUpload={onUpload} uploadPreset="t3tev8mo" />;
+            // onChange("https://oaidalleapiprodscus.blob.core.windows.net/private/org-zPPSy8C6avKOolzJnjmd2HjY/user-bNID8zWt6W85dzh6FMwgr2jC/img-cS4tP5xPbmldOclAipZNxJZu.png?st=2023-09-07T20%3A42%3A33Z&se=2023-09-07T22%3A42%3A33Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-07T18%3A16%3A02Z&ske=2023-09-08T18%3A16%3A02Z&sks=b&skv=2021-08-06&sig=hRM9j9JpIWIOJLLBs9npfA3Os6isEADEi4PNSNWjgJk%3D");
+            //     cloudinary.cloudinaryLoader(
+            //       {
+            //         height: ,
+            //          src: "https://upload.wikimedia.org/wikipedia/commons/1/13/Benedict_Cumberbatch_2011.png"
+            // })
+            // onChange(uploaded_image_url);
+          };
           return (
-            <Button
-              type="button"
-              variant="secondary"
-              disabled={disabled}
-              onClick={onClick}
-            >
-              <ImagePlus className="h-4 w-4 mr-2"/>
-              Upload an Image
-            </Button>
+            <div>
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={disabled}
+                onClick={onClick}
+              >
+                <ImagePlus className="h-4 w-4 mr-2" />
+                Upload an Image
+              </Button>
+
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={disabled}
+                onClick={onClickImageGenerator}
+              >
+                <ImagePlus className="h-4 w-4 mr-2" />
+                Use AI Generated Image
+              </Button>
+            </div>
           );
         }}
       </CldUploadWidget>
