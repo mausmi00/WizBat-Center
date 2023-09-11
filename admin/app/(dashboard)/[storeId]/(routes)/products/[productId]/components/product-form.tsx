@@ -68,6 +68,7 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [imageName, setImageName] = useState("");
 
   const params = useParams();
   const router = useRouter();
@@ -97,6 +98,10 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
   });
 
   const onSubmit = async (data: ProductFormValues) => {
+    // if(data.images.length == 0) {
+    //   data.images[1] =
+    // }
+
     try {
       setLoading(true);
       if (initialData) {
@@ -159,30 +164,6 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8 w-full"
         >
-          <FormField
-            control={form.control}
-            name="images"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Images</FormLabel>
-                <FormControl>
-                  <ImageUpload
-                    value={field.value.map((image) => image.url)}
-                    disabled={loading}
-                    onChange={(url) =>
-                      field.onChange([...field.value, { url }])
-                    }
-                    onRemove={(url) =>
-                      field.onChange([
-                        ...field.value.filter((current) => current.url !== url),
-                      ])
-                    }
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
@@ -195,6 +176,10 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
                       disabled={loading}
                       placeholder="Product name"
                       {...field}
+                      onChange={(event) => {
+                        setImageName(field.value);
+                        field.onChange(event)
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -353,6 +338,31 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
               )}
             />
           </div>
+          <FormField
+            control={form.control}
+            name="images"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Images</FormLabel>
+                <FormControl>
+                  <ImageUpload
+                    value={field.value.map((image) => image.url)}
+                    disabled={loading}
+                    onChange={(url) =>
+                      field.onChange([...field.value, { url }])
+                    }
+                    onRemove={(url) =>
+                      field.onChange([
+                        ...field.value.filter((current) => current.url !== url),
+                      ])
+                    }
+                    imageName={imageName}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button>
