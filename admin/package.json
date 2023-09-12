@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/nextjs": "^4.21.15",
     "@cloudinary-util/url-loader": "^3.10.0",
+    "@headlessui/react": "^1.7.17",
     "@hookform/resolvers": "^3.1.1",
     "@prisma/client": "^4.16.2",
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -56,6 +57,7 @@
     "react-hook-form": "^7.45.1",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^4.10.1",
+    "react-spinners": "^0.13.8",
     "recharts": "^2.7.2",
     "stripe": "^12.13.0",
     "tailwind-merge": "^1.13.2",

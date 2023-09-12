@@ -16,6 +16,7 @@ interface ImageUploadProps {
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
   value: string[];
+  imageName: string;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
@@ -23,6 +24,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   onChange,
   onRemove,
   value,
+  imageName,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -39,14 +41,15 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   }
 
   const imageGenerator = async () => {
-    // const configuration = new Configuration({
-    //   apiKey: process.env.OPENAI_API_KEY_IMAGE_GEN,
-    // });
+    const configuration = new Configuration({
+      apiKey: process.env.OPENAI_API_KEY_IMAGE_GEN,
+    });
+    // console.log("image name is: ", imageName);
 
     const openai = new OpenAIApi(configuration);
     let response = await openai
       .createImage({
-        prompt: "test",
+        prompt: imageName,
         n: 1,
         size: "256x256",
       })
@@ -140,26 +143,29 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             // onChange(uploaded_image_url);
           };
           return (
-            <div>
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={disabled}
-                onClick={onClick}
-              >
-                <ImagePlus className="h-4 w-4 mr-2" />
-                Upload an Image
-              </Button>
-
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={disabled}
-                onClick={onClickImageGenerator}
-              >
-                <ImagePlus className="h-4 w-4 mr-2" />
-                Use AI Generated Image
-              </Button>
+            <div className="flex">
+              <div className="m-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  disabled={disabled}
+                  onClick={onClick}
+                >
+                  <ImagePlus className="h-4 w-4 mr-2" />
+                  Upload an Image
+                </Button>
+              </div>
+              <div className="m-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  disabled={disabled}
+                  onClick={onClickImageGenerator}
+                >
+                  <ImagePlus className="h-4 w-4 mr-2" />
+                  Use AI Generated Image
+                </Button>
+              </div>
             </div>
           );
         }}
