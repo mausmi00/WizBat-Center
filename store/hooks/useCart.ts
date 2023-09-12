@@ -22,9 +22,18 @@ const useCart = create(
         dishes: [],
         addItem: (data: any) => {
             const currentItems = get().items;
-            if (data.toString().includes("Item out of stock:") || data.toString().includes("%")) {
+            const currentItemsNotInStock = get().notAvailableItems;
+            // % is for the names of dishes (deleted feature)
+            // if (data.toString().includes("Item out of stock:") || data.toString().includes("%")) {
+            if (data.toString().includes("Item out of stock:")) {
                 // set({ items: [...get().items, data] });
                 // console.log("out of stock item: ", data);
+
+                const existingItemNotInstock = currentItemsNotInStock.find((item) => item === data);
+
+                if (existingItemNotInstock) {
+                    return toast("Item already in cart.");
+                }
                 set({ notAvailableItems: [...get().notAvailableItems, data] })
             }
             else {
@@ -33,7 +42,7 @@ const useCart = create(
                 if (existingItem) {
                     return toast("Item already in cart.");
                 }
-                console.log("in stock: ", data);
+                // console.log("in stock: ", data);
                 set({ items: [...get().items, data] });
             }
             // toast.success("Item added to cart");

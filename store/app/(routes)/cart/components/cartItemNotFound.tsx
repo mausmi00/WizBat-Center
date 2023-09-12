@@ -15,22 +15,28 @@ const CartItemNotFound: React.FC<CartItemProps> = ({ data }) => {
   const outOfStockName = data.split("Item out of stock: ");
 
   // if the name of the product starts with '%' then its a dish name
-  const isDish = data.charAt(0) == "%" ? true : false;
-  let dishName = null;
-  if (isDish) {
-    dishName = data.split("%")[1];
-    console.log("dishname: ", dishName);
-  }
+  // const isDish = data.charAt(0) == "%" ? true : false;
+  // let dishName = null;
+  // if (isDish) {
+  //   dishName = data.split("%")[1];
+  //   // console.log("dishname: ", dishName);
+  // }
 
   const onRemove = () => {
     cart.removeItem(data);
   };
 
-  return isDish ? (
-    <ul>
-      <h4 className="text-2xl font-semibold text-black text-decoration-line: underline">{dishName}</h4>
-    </ul>
-  ) : (
+  // console.log("length of ingredients: ", data);
+
+  // return isDish && outOfStockName.length >= 1 ? (
+  //   <ul>
+  //     {/* if we want to display dish names before displaying their ingredients*/}
+  //     {/* <h4 className="text-2xl font-semibold text-black text-decoration-line: underline">
+  //       {dishName}
+  //     </h4> */}
+  //   </ul>
+  // ) :
+  return (
     <>
       <li className="flex py-6 border-b">
         <div className="relative h-15 w-15 rounded-md overflow-hidden sm:h-20 sm:w-20">

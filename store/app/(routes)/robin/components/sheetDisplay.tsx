@@ -20,6 +20,7 @@ import { toast } from "react-hot-toast";
 import Form from "./form";
 import clsx from "clsx";
 import LoadingModal from "@/components/loading-modal";
+import useCart from "@/hooks/useCart";
 
 declare global {
   var socket: any;
@@ -32,6 +33,7 @@ const SheetDisplay = () => {
   const [newMessageSent, setNewMessageSent] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
+  const cart = useCart();
   //server connection
   const [isConnected, setIsConnected] = useState(false);
   const URL = = process.env.API_GATEWAY;
@@ -50,10 +52,11 @@ const SheetDisplay = () => {
 
   const onConnect = useCallback(() => {
     // console.log("chain: ", globalThis.CHAIN);
+    cart.removeAll();
     socket.current = new WebSocket(URL);
-    console.log("socket.current.readyState: ", socket.current.readyState);
+    // console.log("socket.current.readyState: ", socket.current.readyState);
     socket.current.onopen = function () {
-      console.log("inside");
+      // console.log("inside");
       socket.current?.send(
         JSON.stringify({
           action: "setName",
@@ -63,7 +66,7 @@ const SheetDisplay = () => {
       socket.current?.addEventListener("close", onClose);
       socket.current?.addEventListener("message", (event: { data: string }) => {
         setNewMessageSent(true);
-        console.log("response: ", JSON.parse(event.data).message);
+        // console.log("response: ", JSON.parse(event.data).message);
       });
     };
   }, []);
@@ -98,7 +101,7 @@ const SheetDisplay = () => {
           console.log(data);
           setMessages(data.data);
           convoId = data.data[1];
-          console.log("messages: ", messages);
+          // console.log("messages: ", messages);
         });
       })
       .finally(() => {

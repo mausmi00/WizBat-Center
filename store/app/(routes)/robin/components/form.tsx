@@ -19,7 +19,7 @@ declare global {
 const Form = () => {
   const [isLoading, setIsLoading] = useState(false);
   const cart = useCart();
-  let dishName: string = "";
+  // let dishName: string = "";
 
   const {
     register,
@@ -62,7 +62,7 @@ const Form = () => {
         globalThis.ingredientsInStore = response.data[2];
         globalThis.ingredientsNotInStore = response.data[3];
         globalThis.ingredientsAdded = response.data[4];
-        dishName = response.data[5];
+        // dishName = response.data[5];
 
         if (globalThis.ingredientsAdded === true) {
           // const message = "Add ingredients to cart?";
@@ -88,8 +88,8 @@ const Form = () => {
   };
 
   const cartAdd = () => {
-    const added: boolean = cart.addDish(dishName);
-    if (added === true) {
+    // const added: boolean = cart.addDish(dishName);
+    // if (added === true) {
       if (
         globalThis.ingredientsInStore !== null &&
         globalThis.ingredientsInStore !== undefined
@@ -106,15 +106,15 @@ const Form = () => {
         globalThis.ingredientsNotInStore !== undefined
       ) {
         // push the dishe's name
-        const updatedDishName = `%${dishName}`;
-        // globalThis.ingredientsNotInStore.push(dishName);
-        cart.addItem(updatedDishName);
+        // const updatedDishName = `%${dishName}`;
+        // // globalThis.ingredientsNotInStore.push(dishName);
+        // cart.addItem(updatedDishName);
         for (let ingre of globalThis.ingredientsNotInStore) {
           const noIngre = `Item out of stock: ${ingre}`;
           cart.addItem(noIngre);
         }
       }
-    }
+    // }
   };
 
   const defaultMessage = (

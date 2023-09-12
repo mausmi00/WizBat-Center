@@ -36,7 +36,7 @@ const CartPage = () => {
                   <CartItem key={item.id} data={item} />
                 ))}
               </ul>
-              <h3 className="text-3xl font-bold text-gray-500 pb-4">
+              <h3 className="text-3xl font-bold text-gray-500 pb-4 pt-10">
                 Out of Stock
               </h3>
               {cart.getItems() === 1 ? (
