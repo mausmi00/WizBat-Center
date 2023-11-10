@@ -1,4 +1,5 @@
 import { Product } from "@/types"
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
@@ -68,8 +69,18 @@ const useCart = create(
         },
 
         removeItem: (id: string) => {
-            set({ items: [...get().items.filter((item) => item.id !== id)] });
-            set({ notAvailableItems: [...get().notAvailableItems.filter((item) => item !== id)] })
+            set({
+                items: [...get().items.filter((item) => {
+                    return item.id !== id;
+                })]
+            });
+
+            set({
+                notAvailableItems: [...get().notAvailableItems.filter((item) => {
+                    item !== id
+                    console.log("not_available_cart_item id: ", item)
+                })]
+            })
             toast.success("Item removed from the cart");
         },
         removeAll: () => set({ items: [], notAvailableItems: [], dishes: [] }),
