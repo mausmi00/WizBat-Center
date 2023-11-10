@@ -40,7 +40,7 @@ const MemoryChain = async () => {
 
     // Embed and store in vector store
     let embeddings = new OpenAIEmbeddings({
-        openAIApiKey: "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"
+        openAIApiKey: "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"
     });
 
     let vectorstore = await MemoryVectorStore.fromDocuments(splitDocs, embeddings);
@@ -54,7 +54,7 @@ const MemoryChain = async () => {
     const model = new ChatOpenAI({
         temperature: 0,
         modelName: "gpt-3.5-turbo",
-        openAIApiKey: "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",
+        openAIApiKey: "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",
 
     });
 
