@@ -5,7 +5,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import { Product, Image, Category, Color, Size } from "@prisma/client";
+import { Product, Image, Category } from "@prisma/client";
 import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -116,7 +116,12 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
       router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
     } catch (error) {
-      toast.error("Something went wrong");
+      console.log(error)
+      if(error.response && error.response.data) {
+        toast.error(error.response.data)
+      } else {
+        toast.error("Something went wrong");
+      }
     } finally {
       setLoading(false);
     }
@@ -178,7 +183,7 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
                       {...field}
                       onChange={(event) => {
                         setImageName(field.value);
-                        field.onChange(event)
+                        field.onChange(event);
                       }}
                     />
                   </FormControl>
