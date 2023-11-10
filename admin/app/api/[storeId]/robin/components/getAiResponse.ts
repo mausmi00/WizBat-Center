@@ -1,21 +1,31 @@
-import { ConversationChain } from "langchain/chains";
+import { ConversationChain, ConversationalRetrievalQAChain } from "langchain/chains";
 import { NextResponse } from "next/server";
 import MemoryChain from "./memoryChain";
 
-const getAiResponse = async (chain: ConversationChain, input: string) => {
+const getAiResponse = async (chain: ConversationalRetrievalQAChain, input: string) => {
+    // console.log("chain: ", chain)
     // if (globalThis.CHAIN === undefined) {
     //     MemoryChain();
     // }
     // console.log("chain in get resp: ", chain);
     // console.log("input: ", input)
     try {
-        const response = await chain.call({
-            input: input,
+        // const response = await chain.call({
+        //     input: input,
+        // });
+        // const updated_input = `Act like a store owner and respond according to the data provided`
+        let response = null
+        response = await chain.call({
+            // question: updated_input,
+            question: input
         });
+       
+        console.log("responseeee: ", response)
         // console.log("chain: ", chain)
         console.log("input: ", input);
         // console.log("response: ", response.response)
-        return response.response;
+        // return response.response;
+        return response.text;
     } catch (error: any) {
         console.log(error, 'ERROR_AI_RESPONSE');
         return new NextResponse('Internal Error', { status: 500 });

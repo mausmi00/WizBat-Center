@@ -9,6 +9,9 @@ interface IParams {
 
 export async function GET(request: Request, { params }: { params: IParams }) {
     const { storeId } = params;
+    console.log("in csv file!")
+    exportDataAsCSV();
+
     MemoryChain();
     // const {user} = useUser();
     // console.log("user image: ", user?.imageUrl);
@@ -37,7 +40,6 @@ export async function GET(request: Request, { params }: { params: IParams }) {
             }
         })
 
-        exportDataAsCSV();
 
         return NextResponse.json(getMessages)
 

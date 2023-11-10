@@ -46,7 +46,7 @@ export async function POST(request: Request) {
                 }
             });
 
-            const response = await getAiResponse(globalThis.CHAIN, message);
+            const response = await getAiResponse(globalThis.CSV_CHAIN, message);
             console.log("reponse getAi1: ", response)
             const messageResponse = await prismadb.message.create({
                 data: {
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
             }
         });
 
-        const response = await getAiResponse(globalThis.CHAIN, message);
+        const response = await getAiResponse(globalThis.CSV_CHAIN, message);
         console.log("reponse getAi2: ", response)
         const messageResponse = await prismadb.message.create({
             data: {
