@@ -44,6 +44,10 @@ export async function POST(req: Request, { params }: { params: { storeId: string
             return new NextResponse("Unauthorized", { status: 401 })
         }
 
+        if(isFeatured == true && isArchived == true) {
+            return new NextResponse("Product can't be both featured and archived", { status: 400 })
+        }
+        
         const product = await prismadb.product.create({
             data: {
                 name,
