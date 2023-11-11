@@ -7,7 +7,6 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -50,12 +49,12 @@ const SheetDisplay = () => {
   };
 
   const onConnect = useCallback(() => {
-    console.log("name: ", globalThis.user?.firstName);
-    console.log("chain: ", globalThis.CHAIN);
+    // console.log("name: ", globalThis.user?.firstName);
+    // console.log("chain: ", globalThis.CHAIN);
     socket.current = new WebSocket(URL);
-    console.log("socket.current.readyState: ", socket.current.readyState);
+    // console.log("socket.current.readyState: ", socket.current.readyState);
     socket.current.onopen = function () {
-      console.log("inside");
+      // console.log("inside");
       socket.current?.send(
         JSON.stringify({
           action: "setName",
@@ -65,7 +64,7 @@ const SheetDisplay = () => {
       socket.current?.addEventListener("close", onClose);
       socket.current?.addEventListener("message", (event: { data: string }) => {
         setNewMessageSent(true);
-        console.log("response: ", JSON.parse(event.data).message);
+        // console.log("response: ", JSON.parse(event.data).message);
       });
     };
   }, []);
@@ -74,7 +73,7 @@ const SheetDisplay = () => {
     axios
       .get(`/api/${storeId}/robin`)
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setMessages(data.data);
         convoId = data.data[1];
         bottomRef?.current?.scrollIntoView();
@@ -87,6 +86,7 @@ const SheetDisplay = () => {
 
   const onClick = () => {
     setIsLoading(true);
+    // delete all old messages whenever robin is clicked on
     axios
       .delete(`/api/${storeId}/robin`)
       .then((data) => {
@@ -95,16 +95,19 @@ const SheetDisplay = () => {
       })
       .then(() => {
         setOpen(true);
-        axios.get(`/api/${storeId}/robin/csv`).then((data) => {
+        console.log("here calling csv")
+        axios.get(`/api/${storeId}/robin/csv`)
+        .then((data) => {
           onConnect();
-          console.log(data);
+          // console.log(data);
           setMessages(data.data);
           convoId = data.data[1];
-          console.log("messages: ", messages);
+          // console.log("messages: ", messages);
         });
       })
       .finally(() => {
         setIsLoading(false);
+        console.log("global csv: ", globalThis.CSV_CHAIN)
       })
       .catch(() => toast.error("Something went wrong!"));
   };
@@ -130,7 +133,7 @@ const SheetDisplay = () => {
               <X className="h-4 w-4" onClick={onClose} />
               <span className="sr-only">Close</span>
             </SheetClose>
-            <SheetDescription>
+            <SheetDescription className="text-white">
               Because every Batman needs a Robin.
             </SheetDescription>
           </SheetHeader>
