@@ -10,11 +10,10 @@ interface IParams {
 export async function GET(request: Request, { params }: { params: IParams }) {
     const { storeId } = params;
     console.log("in csv file!")
-    exportDataAsCSV();
+    exportDataAsCSV().then(() => {
+         MemoryChain();
+    })
 
-    MemoryChain();
-    // const {user} = useUser();
-    // console.log("user image: ", user?.imageUrl);
     try {
         const storeOwner = await prismadb.store.findUnique({
             where: {
@@ -47,4 +46,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         console.log(error, "ROBIN_GET_ERROR")
         return new NextResponse('Internal Error', { status: 500 })
     }
+
+    // const {user} = useUser();
+    // console.log("user image: ", user?.imageUrl);
 }

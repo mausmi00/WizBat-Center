@@ -31,7 +31,7 @@ const MemoryChain = async () => {
     // Split data
     let textSplitter = new RecursiveCharacterTextSplitter({
         chunkSize: 200,
-        chunkOverlap: 100,
+        chunkOverlap: 0,
     });
 
     let splitDocs = await textSplitter.splitDocuments(docs);
@@ -77,14 +77,16 @@ const MemoryChain = async () => {
     // ]);
 
     let retriever = vectorstore.asRetriever()
-    retriever.k = 500
+    retriever.k = 1000
     let k = 500
     globalThis.CSV_CHAIN = ConversationalRetrievalQAChain.fromLLM(
         model,
         retriever,
-       { memory: new BufferMemory({ returnMessages: true, memoryKey: "chat_history" })}
+        {
+            memory: new BufferMemory({ returnMessages: true, memoryKey: "chat_history" })
+        },
     )
-    globalThis.CSV_CHAIN.k = 500
+    // globalThis.CSV_CHAIN.k = 500
 
     // const toolkit = new VectorStoreToolkit(vectorStoreInfo, model); 
     // const agent = createVectorStoreAgent(model, toolkit);
@@ -110,14 +112,29 @@ const MemoryChain = async () => {
     // const first_call = await globalThis.CHAIN.call({
     //     question: chatPrompt,
     // });
+    // let result = await globalThis.CSV_CHAIN.call({
+    //     question: "What is the most popular product we have?",
+    //     prompt: "According to the has Bought values, the most popular product we have is {response}"
+    // });
+
+    // result = await globalThis.CSV_CHAIN.invoke({
+    //     question: "What is the most popular product we have?",
+    //     prompt: "According to the has Bought values, the most popular product we have is {response}"
+    // });
 
     // console.log("chain: ", globalThis.CSV_CHAIN)
-    let result = await globalThis.CSV_CHAIN.call(
-        {
-            question: "how many rows of data do I have?"
-        }
-    );
-    console.log(result);
+    // let result = await globalThis.CSV_CHAIN.call(
+    //     {
+    //         question: "how many rows of data do I have?"
+    //     }
+    // );
+    // console.log(result);
+    // result = await globalThis.CSV_CHAIN.call(
+    //     {
+    //         question: "show me all the data you have"
+    //     }
+    // );
+    // console.log(result);
     // result = await globalThis.CSV_CHAIN.call({
     //     question: "display the data"
     // });
