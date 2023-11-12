@@ -17,7 +17,7 @@ const getAiResponse = async (chain: ConversationalRetrievalQAChain, input: strin
         let response = null
         response = await chain.call({
             // question: updated_input,
-            question: input
+            question: `${input}. Answer question based on the provided context. Try to answer ther questions, keep your answers short and precise. You can guess the popularity of products by checking which one was bought most times`
         });
        
         console.log("responseeee: ", response)
