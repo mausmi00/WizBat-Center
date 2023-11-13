@@ -53,7 +53,9 @@ export function HoverState<TData, TValue>({
             {headerGroup.headers.map((header) => {
               return (
                 <Table.HeadCell key={header.id}>
-                  {header.column.columnDef.header}
+                  {typeof header.column.columnDef.header === "function"
+                    ? header.column.columnDef.header(header.getContext())
+                    : header.column.columnDef.header}
                 </Table.HeadCell>
               );
             })}
@@ -69,51 +71,52 @@ export function HoverState<TData, TValue>({
       </Table.Head>
 
       <Table.Body className="divide-y">
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <Table.Row key={row.id}className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  {row.getVisibleCells().map((cell) => (
-                    <Table.Cell key={cell.id} className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                      {imageUrlCell(cell.id) ? (
-                        <Image
-                          src={cell.getContext().getValue()}
-                          alt="Image"
-                          className="aspect-square object-cover rounded-md"
-                          height={100}
-                          width={100}
-                        />
-                      ) : imageCell(cell.id) ? (
-                        <Image
-                          src={cell.getContext().getValue().url}
-                          alt="Image"
-                          className="aspect-square object-cover rounded-md"
-                          height={100}
-                          width={100}
-                        />
-                      ) : (
-                        flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )
-                      )}
-                    </Table.Cell>
-                  ))}
-                </Table.Row>
-              ))
-            ) : (
-              <Table.Row>
+        {table.getRowModel().rows?.length ? (
+          table.getRowModel().rows.map((row) => (
+            <Table.Row
+              key={row.id}
+              className="bg-white dark:border-gray-700 dark:bg-gray-800"
+            >
+              {row.getVisibleCells().map((cell) => (
                 <Table.Cell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
+                  key={cell.id}
+                  className="whitespace-nowrap font-medium text-gray-900 dark:text-white"
                 >
-                  No results.
+                  {imageUrlCell(cell.id) ? (
+                    <Image
+                      src={(cell.getContext().getValue() as string) || ""}
+                      alt="Image"
+                      className="aspect-square object-cover rounded-md"
+                      height={100}
+                      width={100}
+                    />
+                  ) : imageCell(cell.id) ? (
+                    <Image
+                      src={
+                        (cell.getContext().getValue() as { url?: string })
+                          ?.url || ""
+                      }
+                      alt="Image"
+                      className="aspect-square object-cover rounded-md"
+                      height={100}
+                      width={100}
+                    />
+                  ) : (
+                    flexRender(cell.column.columnDef.cell, cell.getContext())
+                  )}
                 </Table.Cell>
-              </Table.Row>
-            )}
+              ))}
+            </Table.Row>
+          ))
+        ) : (
+          <Table.Row>
+            <Table.Cell colSpan={columns.length} className="h-24 text-center">
+              No results.
+            </Table.Cell>
+          </Table.Row>
+        )}
 
-
-
-{/* 
+        {/* 
         {data.map((item) => (
           <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
             <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
