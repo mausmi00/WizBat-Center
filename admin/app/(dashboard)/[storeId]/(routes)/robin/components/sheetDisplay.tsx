@@ -133,7 +133,7 @@ const SheetDisplay = () => {
               <X className="h-4 w-4" onClick={onClose} />
               <span className="sr-only">Close</span>
             </SheetClose>
-            <SheetDescription className="text-white">
+            <SheetDescription className="text-black">
               Because every Batman needs a Robin.
             </SheetDescription>
           </SheetHeader>

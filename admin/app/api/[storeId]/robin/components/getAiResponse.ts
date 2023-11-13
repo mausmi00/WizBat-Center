@@ -17,12 +17,11 @@ const getAiResponse = async (chain: ConversationalRetrievalQAChain, input: strin
         let response = null
         response = await chain.call({
             // question: updated_input,
-            question: `${input}. Act as an assistant to a store owner and answer question based on the provided context, keep your answers short and precise. If questions asked are not in context make up an answer. Don't break character at any point. Also respond with easily readable text`
+            question: `${input}. Act as an assistant to a store owner and answer question based on the provided context, keep your answers short and precise. If questions asked are not in context make up an answer. Don't break character at any point. Also respond with easily readable text, if necessary, format the text to pointers before responding. Don't answer in long paragraphs`
         });
        
         console.log("responseeee: ", response)
         // console.log("chain: ", chain)
-        console.log("input: ", input);
         // console.log("response: ", response.response)
         // return response.response;
         return response.text;

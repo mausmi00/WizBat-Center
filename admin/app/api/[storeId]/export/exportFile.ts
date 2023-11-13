@@ -44,7 +44,7 @@ const exportDataAsCSV = async() => {
             { id: "order_isPaid", title: "Has Bought" },
             // { id: "order_phone", title: "Order phone" },
             // { id: "order_address", title: "Order address" },
-            { id: "order_createdAt", title: "Order createdAt" },
+            // { id: "order_createdAt", title: "Order createdAt" },
             // { id: "order_updatedAt", title: "Order updatedAt" }
         ]
 

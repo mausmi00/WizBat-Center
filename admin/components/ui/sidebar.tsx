@@ -34,7 +34,7 @@ const ContentSeparator = () => {
     <div className="h-screen sticky top-0">
       <Sidebar aria-label="Sidebar" className="z-2">
         <Sidebar.Logo href="#" img="">
-          Shushhopify
+          WizCart
         </Sidebar.Logo>
         <Sidebar.Items className="mt-10">
           <Sidebar.ItemGroup>

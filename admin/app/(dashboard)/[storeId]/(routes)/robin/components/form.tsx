@@ -53,6 +53,7 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    setIsLoading(true);
     setValue("message", "", { shouldValidate: true });
     axios
       .post(`/api/${storeId}/robin`, {
@@ -63,6 +64,9 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
         // onSocketMessage(response[1], globalThis.user?.firstName);
         // agentResponseGenerated(data.message);
         // onSocketMessage(globalThis.agentResponse, "Robin");
+      })
+      .then(() => {
+        setIsLoading(false);
       })
       .catch(() => {
         toast.error("Something went wrong. Please refresh.");
@@ -87,26 +91,53 @@ const Form: React.FC<FormProps> = ({ storeId }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex items-center gap-2 w-full"
     >
-      <MessageInput
-        id="message"
-        register={register}
-        errors={errors}
-        required
-        disabled={isLoading}
-        placeholder="Ask anything..."
-      />
-      <button
-        type="submit"
-        className="
+      {isLoading ? (
+        <>
+          <MessageInput
+            id="message"
+            register={register}
+            errors={errors}
+            required
+            disabled={true}
+            placeholder="Robin is typing..."
+          />
+          <button
+            type="submit"
+            className="
     rounded-full
     p-2
     bg-[#66FCF1]
     cursor-pointer
     hover:bg-[#45A29E]
     transition"
-      >
-        <HiPaperAirplane size={18} className="text-[#1F2833]" />
-      </button>
+          >
+            {/* <HiPaperAirplane size={18} className="text-[#1F2833]" /> */}
+          </button>
+        </>
+      ) : (
+        <>
+          <MessageInput
+            id="message"
+            register={register}
+            errors={errors}
+            required
+            disabled={false}
+            placeholder="Ask anything..."
+          />
+          <button
+            type="submit"
+            className="
+    rounded-full
+    p-2
+    bg-[#66FCF1]
+    cursor-pointer
+    hover:bg-[#45A29E]
+    transition"
+          >
+            <HiPaperAirplane size={18} className="text-[#1F2833]" />
+          </button>
+        </>
+      )}
     </form>
   );
 

@@ -19,8 +19,8 @@ const Navbar = async () => {
   });
 
   return (
-    <div className="border-b top-0 left-0 sticky bg-background z-99999999">
-      <div className="flex h-16 items-center px-4">
+    <div className="border-b top-0 left-0 bg-background z-99999999">
+      <div className="flex h-16 items-center px-4 ">
         {/* <div className="flex ml-4">
           <FcShop className="mr-2" size={25} />
           <h1 className="mr-20 font-bold font-mono text-xl">Shushpify</h1>
@@ -31,7 +31,7 @@ const Navbar = async () => {
           <StoreSwitcher items={stores} />
           <SheetDisplay />
           <ThemeToggle />
-          <UserButton afterSignOutUrl="/" />
+          {/* <UserButton afterSignOutUrl="/" /> */}
         </div>
       </div>
     </div>
