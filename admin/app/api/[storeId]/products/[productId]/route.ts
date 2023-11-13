@@ -15,9 +15,7 @@ export async function GET(req: Request,
             },
             include: {
                 images: true,
-                category: true,
-                // size: true,
-                // color: true
+                category: true
             }
         });
 
@@ -55,14 +53,6 @@ export async function PATCH(req: Request,
             return new NextResponse("Category id is required", { status: 400 })
         }
 
-        // if (!sizeId) {
-        //     return new NextResponse("Size id is required", { status: 400 })
-        // }
-
-        // if (!colorId) {
-        //     return new NextResponse("Color id is required", { status: 400 })
-        // }
-
         if (!params.storeId) {
             return new NextResponse("Store id is required", { status: 400 })
         }
@@ -89,9 +79,7 @@ export async function PATCH(req: Request,
             data: {
                 name,
                 price,
-                categoryId,
-                // colorId,
-                // sizeId,
+                categoryId
                 images: {
                     deleteMany: {},
                 },

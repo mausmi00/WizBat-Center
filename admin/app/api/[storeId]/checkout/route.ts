@@ -80,6 +80,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
 
     // Return the response with CORS headers
     const responseBody = JSON.stringify({ url: session.url });
+    // console.log("session: ", session)
     return new Response(responseBody, {
         status: 200,
         headers: responseHeaders,

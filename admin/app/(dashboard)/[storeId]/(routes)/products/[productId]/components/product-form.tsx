@@ -39,8 +39,6 @@ const formSchema = z.object({
   images: z.object({ url: z.string() }).array(),
   price: z.coerce.number().min(1),
   categoryId: z.string().min(1),
-  colorId: z.string().optional(),
-  sizeId: z.string().optional(),
   isFeatured: z.boolean().default(false).optional(),
   isArchived: z.boolean().default(false).optional(),
 });
@@ -54,15 +52,11 @@ interface ProductFormProps {
       })
     | null;
   categories: Category[];
-  // colors: Color[];
-  // sizes: Size[];
 }
 
 export const ProdcutForm: React.FC<ProductFormProps> = ({
   initialData,
   categories,
-  // colors,
-  // sizes,
 }) => {
   // for the alert model
 

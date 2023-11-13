@@ -2,7 +2,7 @@
 
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
-import { RingLoader } from "react-spinners";
+import { GridLoader } from "react-spinners";
 
 const LoadingModal = () => {
   return (
@@ -21,7 +21,7 @@ const LoadingModal = () => {
             className="
             fixed
             inset-0
-            bg-gray-100
+            bg-gray-500
             bg-opacity-50
             transition-opacity"
           ></div>
@@ -45,7 +45,7 @@ const LoadingModal = () => {
             "
           >
             <Dialog.Panel>
-              <RingLoader size={40} color="#66FCF1" />
+              <GridLoader size={40} color="#808080" />
             </Dialog.Panel>
           </div>
         </div>

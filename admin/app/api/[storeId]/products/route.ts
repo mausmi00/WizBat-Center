@@ -8,7 +8,7 @@ export async function POST(req: Request, { params }: { params: { storeId: string
         const { userId } = auth();
         const body = await req.json();
 
-        const { name, price, categoryId, colorId, sizeId, images, isFeatured, isArchived } = body;
+        const { name, price, categoryId, images, isFeatured, isArchived } = body;
 
         if (!userId) {
             return new NextResponse("Unauthenticated", { status: 403 });
@@ -81,8 +81,6 @@ export async function GET(req: Request, { params }: { params: { storeId: string 
 
         const { searchParams } = new URL(req.url);
         const categoryId = searchParams.get("categoryId") || undefined;
-        const colorId = searchParams.get("colorId") || undefined;
-        const sizeId = searchParams.get("sizeId") || undefined;
         const isFeatured = searchParams.get("isFeatured");
 
         if (!params.storeId) {
