@@ -47,7 +47,7 @@ export function DataTable<TData, TValue>({
       columnFilters,
     },
   });
-  
+
   const imageUrlCell = (text: any) => {
     return text.includes("imageUrl") || text.includes("Image") ? true : false;
   };
@@ -99,7 +99,7 @@ export function DataTable<TData, TValue>({
                     <TableCell key={cell.id}>
                       {imageUrlCell(cell.id) ? (
                         <Image
-                          src={cell.getContext().getValue()}
+                          src={(cell.getContext().getValue() as string) || ""}
                           alt="Image"
                           className="aspect-square object-cover rounded-md"
                           height={45}
@@ -107,7 +107,10 @@ export function DataTable<TData, TValue>({
                         />
                       ) : imageCell(cell.id) ? (
                         <Image
-                          src={cell.getContext().getValue().url}
+                          src={
+                            (cell.getContext().getValue() as { url?: string })
+                              ?.url || ""
+                          }
                           alt="Image"
                           className="aspect-square object-cover rounded-md"
                           height={45}

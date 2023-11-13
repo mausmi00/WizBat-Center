@@ -20,6 +20,7 @@
     "axios": "^1.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^1.2.1",
+    "csv-writer": "^1.6.0",
     "d3-dsv": "^2.0.0",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",

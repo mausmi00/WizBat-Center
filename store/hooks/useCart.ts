@@ -77,7 +77,7 @@ const useCart = create(
 
             set({
                 notAvailableItems: [...get().notAvailableItems.filter((item) => {
-                    item !== id
+                    return item !== id
                     console.log("not_available_cart_item id: ", item)
                 })]
             })
