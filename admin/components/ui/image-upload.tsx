@@ -1,13 +1,10 @@
 "use client";
 
 import { ImagePlus, Trash } from "lucide-react";
-import { CldUploadWidget, CldImage, getCldImageUrl } from "next-cloudinary";
+import { CldUploadWidget } from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { Button } from "./button";
 import Image from "next/image";
-import { constructCloudinaryUrl } from "@cloudinary-util/url-loader";
-import cloudinary from "next-cloudinary";
-import ImageGenerator from "../imageGen/image-generator";
 import axios from "axios";
 import { Configuration, OpenAIApi } from "openai";
 import { Input } from "@/components/ui/input";
@@ -17,15 +14,13 @@ interface ImageUploadProps {
   onChange: (value: string) => void;
   onRemove: (value: string) => void;
   value: string[];
-  imageName: string;
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
   onChange,
   onRemove,
-  value,
-  imageName,
+  value
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
