@@ -10,6 +10,7 @@ import cloudinary from "next-cloudinary";
 import ImageGenerator from "../imageGen/image-generator";
 import axios from "axios";
 import { Configuration, OpenAIApi } from "openai";
+import { Input } from "@/components/ui/input";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -27,6 +28,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   imageName,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [imageDescription, setImageDescription] = useState("");
 
   useEffect(() => {
     setIsMounted(true);
@@ -47,9 +50,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     // console.log("image name is: ", imageName);
 
     const openai = new OpenAIApi(configuration);
+    let prompt = `A ${imageDescription} which is to be used as a product image in a store`;
     let response = await openai
       .createImage({
-        prompt: imageName,
+        prompt: prompt,
         n: 1,
         size: "256x256",
       })
@@ -143,8 +147,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             // onChange(uploaded_image_url);
           };
           return (
-            <div className="flex">
-              <div className="m-2">
+            <div className="flex-row">
+              <div className="m-2 mb-10">
                 <Button
                   type="button"
                   variant="secondary"
@@ -156,15 +160,22 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                 </Button>
               </div>
               <div className="m-2">
-                <Button
-                  type="button"
-                  variant="secondary"
-                  disabled={disabled}
-                  onClick={onClickImageGenerator}
-                >
-                  <ImagePlus className="h-4 w-4 mr-2" />
-                  Use AI Generated Image
-                </Button>
+                <Input
+                  placeholder="Image Description"
+                  onChange={(event) => setImageDescription(event.target.value)}
+                  className="max-w-sm p-8"
+                />
+                <div className="mt-5">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    disabled={disabled}
+                    onClick={onClickImageGenerator}
+                  >
+                    <ImagePlus className="h-4 w-4 mr-2" />
+                    Use AI Generated Image
+                  </Button>
+                </div>
               </div>
             </div>
           );
