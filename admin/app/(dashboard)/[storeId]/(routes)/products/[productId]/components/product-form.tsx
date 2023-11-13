@@ -90,18 +90,12 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
           images: [],
           price: 0,
           categoryId: "",
-          // colorId: "",
-          // sizeId: "",
           isFeatured: false,
           isArchived: false,
         },
   });
 
   const onSubmit = async (data: ProductFormValues) => {
-    // if(data.images.length == 0) {
-    //   data.images[1] =
-    // }
-
     try {
       setLoading(true);
       if (initialData) {
@@ -115,8 +109,7 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
       router.refresh();
       router.push(`/${params.storeId}/products`);
       toast.success(toastMessage);
-    } catch (error) {
-      console.log(error)
+    } catch (error: any) {
       if(error.response && error.response.data) {
         toast.error(error.response.data)
       } else {
@@ -236,70 +229,6 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="sizeId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Size</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a size"
-                        ></SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {sizes.map((size) => (
-                        <SelectItem key={size.id} value={size.id}>
-                          {size.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="colorId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Color</FormLabel>
-                  <Select
-                    disabled={loading}
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          defaultValue={field.value}
-                          placeholder="Select a color"
-                        ></SelectValue>
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {colors.map((color) => (
-                        <SelectItem key={color.id} value={color.id}>
-                          {color.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
             <FormField
               control={form.control}
               name="isFeatured"
@@ -361,7 +290,6 @@ export const ProdcutForm: React.FC<ProductFormProps> = ({
                         ...field.value.filter((current) => current.url !== url),
                       ])
                     }
-                    imageName={imageName}
                   />
                 </FormControl>
                 <FormMessage />
