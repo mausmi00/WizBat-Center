@@ -9,9 +9,11 @@ interface IParams {
 
 export async function GET(request: Request, { params }: { params: IParams }) {
     const { storeId } = params;
-    console.log("in csv file!")
+    // console.log("in csv file!")
     exportDataAsCSV().then(() => {
-         MemoryChain();
+        MemoryChain();
+    }).catch((error: any) => {
+        return new NextResponse('CSV Internal Error', { status: 500 })
     })
 
     try {
@@ -30,14 +32,17 @@ export async function GET(request: Request, { params }: { params: IParams }) {
             },
         });
 
-        const getMessages = await prisma?.message.findMany({
-            where: {
-                conversationId: convoMessages[0]?.id
-            },
-            orderBy: {
-                createdAt: 'asc'
-            }
-        })
+        let getMessages = null
+        if (convoMessages.length == 0) {
+            getMessages = await prisma?.message.findMany({
+                where: {
+                    conversationId: convoMessages[0]?.id
+                },
+                orderBy: {
+                    createdAt: 'asc'
+                }
+            })
+        }
 
 
         return NextResponse.json(getMessages)

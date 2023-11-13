@@ -72,7 +72,7 @@ export async function POST(request: Request) {
         });
 
         const response = await getAiResponse(globalThis.CSV_CHAIN, message);
-        console.log("reponse getAi2: ", response)
+        // console.log("reponse getAi2: ", response)
         const messageResponse = await prismadb.message.create({
             data: {
                 body: response,
@@ -84,7 +84,7 @@ export async function POST(request: Request) {
                 }
             }
         });
-        console.log("message: ", messageResponse)
+        // console.log("message: ", messageResponse)
 
         return NextResponse.json([newMessage, messageResponse])
 

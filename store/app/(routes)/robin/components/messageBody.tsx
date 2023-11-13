@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Avatar from "./Avatar";
 import { Message } from "@prisma/client";
+import React from "react";
 
 interface MessageBoxProps {
   initialMessages: Message[] | null;
@@ -34,8 +35,8 @@ const messageBox: React.FC<MessageBoxProps> = ({ initialMessages }) => {
             </p>
           </div>
 
-          {initialMessages?.map((message: Message) => (
-            <>
+          {initialMessages?.map((message: Message, index: number) => (
+            <React.Fragment key={index}>
               <div className="pt-4 text-black">
                 <div className="flex gap-3">
                   {message.isAi ? (
@@ -48,7 +49,7 @@ const messageBox: React.FC<MessageBoxProps> = ({ initialMessages }) => {
                   {message?.body}
                 </div>
               </div>
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>

@@ -1,6 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import MemoryChain from "../components/memoryChain";
+import exportDataAsCSV from "../../export/exportFile";
 
 export async function GET(request: Request) {
 
@@ -26,14 +27,17 @@ export async function GET(request: Request) {
             },
         });
 
-        const getMessages = await prisma?.message.findMany({
-            where: {
-                conversationId: convoMessages[0]?.id
-            },
-            orderBy: {
-                createdAt: 'asc'
-            }
-        })
+        let getMessages = null;
+        if (convoMessages != null) {
+            getMessages = await prisma?.message.findMany({
+                where: {
+                    conversationId: convoMessages[0]?.id
+                },
+                orderBy: {
+                    createdAt: 'asc'
+                }
+            })
+        }
 
         // exportDataAsCSV();
 

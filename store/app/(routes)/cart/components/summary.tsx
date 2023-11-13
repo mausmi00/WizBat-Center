@@ -15,6 +15,7 @@ const Summary = () => {
 
   useEffect(() => {
     if (searchParams.get("success")) {
+      // axios.post(`/api/webhook`)
       toast.success("Payment completed.");
       removeAll();
     }
@@ -28,14 +29,23 @@ const Summary = () => {
   }, 0);
 
   const onCheckout = async () => {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
-      {
-        productIds: items.map((item) => item.id),
-      }
-    );
-    window.location = response.data.url;
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/checkout`,
+        {
+          productIds: items.map((item) => item.id),
+        }
+      );
+
+      window.location = response.data.url;
+      // console.log("response: ", response)
+
+    } catch (error) {
+      console.log("STRIPE_CHECKOUT_SUMMARY_ERROR", error);
+      toast.error("Something went wrong");
+    }
   };
+
   return (
     <div className="mt-16 rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 lg:p-8">
       <h2 className="text-lg font-medium text-gray-900">Order Summary</h2>
@@ -45,7 +55,11 @@ const Summary = () => {
           <Currency value={totalPrice} />
         </div>
       </div>
-      <Button disabled={items.length === 0} onClick={onCheckout} className="mt-6 w-full">
+      <Button
+        disabled={items.length === 0}
+        onClick={onCheckout}
+        className="mt-6 w-full"
+      >
         Checkout
       </Button>
     </div>

@@ -68,7 +68,7 @@ export async function PATCH(req: Request,
             return new NextResponse("Unauthorized", { status: 401 })
         }
 
-        if(isFeatured == true && isArchived == true) {
+        if (isFeatured == true && isArchived == true) {
             return new NextResponse("Product can't be both featured and archived", { status: 400 })
         }
 

@@ -75,12 +75,16 @@ const SheetDisplay = () => {
     axios
       .get(`/api/robin`)
       .then((data) => {
-        console.log(data);
-        setMessages(data.data);
-        convoId = data.data[1];
+        if (data != null && data.data != null) {
+          setMessages(data.data);
+          convoId = data.data[1];
+        }
         bottomRef?.current?.scrollIntoView();
       })
-      .catch(() => toast.error("Something went wrong!"))
+      .catch((error) => {
+        toast.error("Something went wrong!");
+        console.log(error);
+      })
       .finally(() => {
         setNewMessageSent(false);
       });
@@ -99,8 +103,10 @@ const SheetDisplay = () => {
         axios.get(`/api/robin/csv`).then((data) => {
           onConnect();
           console.log(data);
-          setMessages(data.data);
-          convoId = data.data[1];
+          if (data != null && data.data != null) {
+            setMessages(data.data);
+            convoId = data.data[1];
+          }
           // console.log("messages: ", messages);
         });
       })

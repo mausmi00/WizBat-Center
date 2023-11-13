@@ -74,8 +74,10 @@ const SheetDisplay = () => {
       .get(`/api/${storeId}/robin`)
       .then((data) => {
         // console.log(data);
-        setMessages(data.data);
-        convoId = data.data[1];
+        if (data != null && data.data != null) {
+          setMessages(data.data);
+          convoId = data.data[1];
+        }
         bottomRef?.current?.scrollIntoView();
       })
       .catch(() => toast.error("Something went wrong!"))
@@ -90,24 +92,25 @@ const SheetDisplay = () => {
     axios
       .delete(`/api/${storeId}/robin`)
       .then((data) => {
-        console.log("data: ", data);
+        // console.log("data: ", data);
         setMessages(null);
       })
       .then(() => {
         setOpen(true);
-        console.log("here calling csv")
-        axios.get(`/api/${storeId}/robin/csv`)
-        .then((data) => {
+        // console.log("here calling csv")
+        axios.get(`/api/${storeId}/robin/csv`).then((data) => {
           onConnect();
           // console.log(data);
-          setMessages(data.data);
-          convoId = data.data[1];
+          if (data != null && data.data != null) {
+            setMessages(data.data);
+            convoId = data.data[1];
+          }
           // console.log("messages: ", messages);
         });
       })
       .finally(() => {
         setIsLoading(false);
-        console.log("global csv: ", globalThis.CSV_CHAIN)
+        // console.log("global csv: ", globalThis.CSV_CHAIN)
       })
       .catch(() => toast.error("Something went wrong!"));
   };

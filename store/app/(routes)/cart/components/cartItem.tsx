@@ -13,9 +13,10 @@ interface CartItemProps {
 
 const CartItem: React.FC<CartItemProps> = ({ data }) => {
   const cart = useCart();
-  console.log("cart item: ", data)
+  // console.log("cart item: ", data)
 
   const onRemove = () => {
+    console.log("on removed called on: ", data.id)
     cart.removeItem(data.id);
   };
 
@@ -24,7 +25,7 @@ const CartItem: React.FC<CartItemProps> = ({ data }) => {
       <div className="relative h-15 w-15 rounded-md overflow-hidden sm:h-20 sm:w-20">
         <Image
           fill
-          src={data.images[0]?.url}
+          src={data?.images[0]?.url}
           alt=""
           className="object-cover object-center"
         />

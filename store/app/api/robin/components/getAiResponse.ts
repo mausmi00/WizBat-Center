@@ -2,6 +2,7 @@ import { ConversationChain } from "langchain/chains";
 import { NextResponse } from "next/server";
 import { Product } from "@/types";
 import AddIngredientsToCart from "./addIngredientsToCart";
+import { useState } from "react";
 
 declare global {
     var ingredientsInStore: Product[] | null | undefined;
@@ -13,11 +14,16 @@ declare global {
 
 const getAiResponse = async (chain: ConversationChain, input: string) => {
 
+    // const [setIsLoading, isLoading]  = useState(false)
+
     try {
+        console.log("input getAiResponse: ", input)
         let response = await chain.call({
             input: input,
         });
+        console.log("getAiResponse response: ", response)
         if (response.response.includes("Ingredient Mode")) {
+            // setIsLoading(true);
             response = response.response.split("Ingredient Mode:")[1];
 
             // Response if of format Ingredient Mode: Banana Milkshake: Banana, milk, ice cream, sugar, vanilla extract. Do you want to add these ingredients to the cart?
