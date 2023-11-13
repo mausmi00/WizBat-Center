@@ -79,7 +79,7 @@ export async function PATCH(req: Request,
             data: {
                 name,
                 price,
-                categoryId
+                categoryId,
                 images: {
                     deleteMany: {},
                 },
