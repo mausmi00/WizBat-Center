@@ -38,7 +38,7 @@ const MemoryChain = async () => {
 
     // Embed and store in vector store
     let embeddings = new OpenAIEmbeddings({
-        openAIApiKey: "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"
+        openAIApiKey: process.env.OPENAI_API_KEY
     });
 
     let vectorstore = await MemoryVectorStore.fromDocuments(splitDocs, embeddings);
@@ -78,7 +78,6 @@ const MemoryChain = async () => {
 
     let retriever = vectorstore.asRetriever()
     retriever.k = 1000
-    let k = 500
     globalThis.CSV_CHAIN = ConversationalRetrievalQAChain.fromLLM(
         model,
         retriever,

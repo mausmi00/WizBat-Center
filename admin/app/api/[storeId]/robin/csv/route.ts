@@ -33,7 +33,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         });
 
         let getMessages = null
-        if (convoMessages.length == 0) {
+        if (convoMessages.length != 0) {
             getMessages = await prisma?.message.findMany({
                 where: {
                     conversationId: convoMessages[0]?.id

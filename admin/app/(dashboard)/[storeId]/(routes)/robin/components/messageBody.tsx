@@ -3,6 +3,7 @@ import Avatar from "./Avatar";
 import { Message } from "@prisma/client";
 import { useUser } from "@clerk/nextjs";
 import { UserResource } from "@clerk/types";
+import React from "react";
 
 declare global {
   var user: UserResource | null | undefined;
@@ -38,8 +39,8 @@ const MessageBox: React.FC<MessageBoxProps> = ({ initialMessages }) => {
             </p>
           </div>
 
-          {initialMessages?.map((message: Message) => (
-            <>
+          {initialMessages?.map((message: Message, index: number) => (
+            <React.Fragment key={index}>
               <div className="pt-4">
                 <div className="flex gap-3">
                   {message.isAi ? (
@@ -51,7 +52,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({ initialMessages }) => {
                   {message?.body}
                 </div>
               </div>
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>

@@ -100,7 +100,7 @@ const SheetDisplay = () => {
       })
       .then(() => {
         setOpen(true);
-        axios.get(`/api/robin/csv`).then((data) => {
+        axios.get(`/api/robin`).then((data) => {
           onConnect();
           console.log(data);
           if (data != null && data.data != null) {
