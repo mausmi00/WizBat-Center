@@ -71,9 +71,9 @@ export function HoverState<TData, TValue>({
       <Table.Body className="divide-y">
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Row key={row.id}className="bg-white dark:border-gray-700 dark:bg-gray-800">
                   {row.getVisibleCells().map((cell) => (
-                    <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                    <Table.Cell key={cell.id} className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {imageUrlCell(cell.id) ? (
                         <Image
                           src={cell.getContext().getValue()}
