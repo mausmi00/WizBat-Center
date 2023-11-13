@@ -117,14 +117,18 @@ export async function GET(request: Request) {
             },
         });
 
-        const getMessages = await prisma?.message.findMany({
-            where: {
-                conversationId: convoMessages[0]?.id,
-            },
-            orderBy: {
-                createdAt: 'asc'
-            }
-        })
+        let getMessages = null;
+
+        if (convoMessages.length == 0) {
+            getMessages = await prisma?.message.findMany({
+                where: {
+                    conversationId: convoMessages[0]?.id,
+                },
+                orderBy: {
+                    createdAt: 'asc'
+                }
+            })
+        }
 
         return NextResponse.json(getMessages)
 
@@ -152,17 +156,22 @@ export async function DELETE(request: Request) {
             },
         });
 
-        const getMessages = await prisma?.message.deleteMany({
-            where: {
-                conversationId: convoMessages[0]?.id
-            }
-        });
+        let getMessages = null;
+        let deleteConvo = null;
 
-        const deleteConvo = await prisma?.conversation.deleteMany({
-            where: {
-                id: convoMessages[0]?.id
-            }
-        })
+        if (convoMessages.length == 0) {
+            getMessages = await prisma?.message.deleteMany({
+                where: {
+                    conversationId: convoMessages[0]?.id
+                }
+            });
+
+            deleteConvo = await prisma?.conversation.deleteMany({
+                where: {
+                    id: convoMessages[0]?.id
+                }
+            })
+        }
 
         return NextResponse.json(deleteConvo)
 

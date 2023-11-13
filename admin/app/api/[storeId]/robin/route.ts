@@ -25,7 +25,6 @@ export async function POST(request: Request) {
                 userId
             }
         });
-        console.log("conversation: ", conversation);
 
         if (conversation.length == 0) {
             const newConversation = await prismadb.conversation.create({
@@ -33,7 +32,6 @@ export async function POST(request: Request) {
                     userId
                 }
             })
-            console.log("new conversation: ", newConversation)
 
             const newMessage = await prismadb.message.create({
                 data: {
@@ -47,7 +45,6 @@ export async function POST(request: Request) {
             });
 
             const response = await getAiResponse(globalThis.CSV_CHAIN, message);
-            console.log("reponse getAi1: ", response)
             const messageResponse = await prismadb.message.create({
                 data: {
                     body: response,
@@ -117,14 +114,17 @@ export async function GET(request: Request, { params }: { params: IParams }) {
             },
         });
 
-        const getMessages = await prisma?.message.findMany({
-            where: {
-                conversationId: convoMessages[0]?.id,
-            },
-            orderBy: {
-                createdAt: 'asc'
-            }
-        })
+        let getMessages = null
+        if (convoMessages.length == 0) {
+            getMessages = await prisma?.message.findMany({
+                where: {
+                    conversationId: convoMessages[0]?.id,
+                },
+                orderBy: {
+                    createdAt: 'asc'
+                }
+            })
+        }
 
         return NextResponse.json(getMessages)
 
@@ -152,18 +152,22 @@ export async function DELETE(request: Request, { params }: { params: IParams }) 
             },
         });
 
-        const getMessages = await prisma?.message.deleteMany({
-            where: {
-                conversationId: convoMessages[0]?.id
-            }
-        });
+        let deleteConvo = null;
+        let getMessages = null;
 
-        const deleteConvo = await prisma?.conversation.deleteMany({
-            where: {
-                id: convoMessages[0]?.id
-            }
-        })
+        if (convoMessages.length == 0) {
+            getMessages = await prisma?.message.deleteMany({
+                where: {
+                    conversationId: convoMessages[0]?.id
+                }
+            });
 
+            deleteConvo = await prisma?.conversation.deleteMany({
+                where: {
+                    id: convoMessages[0]?.id
+                }
+            })
+        }
         return NextResponse.json(deleteConvo)
 
     } catch (error) {
