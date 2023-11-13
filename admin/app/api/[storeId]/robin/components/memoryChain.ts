@@ -58,7 +58,7 @@ const MemoryChain = async () => {
     const model = new ChatOpenAI({
         temperature: 1,
         modelName: "gpt-3.5-turbo",
-        openAIApiKey: "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",
+        openAIApiKey: process.env.OPENAI_API_KEY,
     });
 
     //initializing chain

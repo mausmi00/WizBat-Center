@@ -25,43 +25,45 @@ declare global {
 }
 
 const MemoryChain = async () => {
-    console.log("initalized!!!")
+    // console.log("initalized!!!")
     // Load data
-    let loader = new CSVLoader("./data/storeInfo.csv/");
-    let docs = await loader.load();
+    // todo: implement csv chain so that robin can respond to store related queries 
 
-    // Split data
-    let textSplitter = new RecursiveCharacterTextSplitter({
-        chunkSize: 500,
-        chunkOverlap: 0,
-    });
+    // let loader = new CSVLoader("./data/storeInfo.csv/");
+    // let docs = await loader.load();
 
-    let splitDocs = await textSplitter.splitDocuments(docs);
+    // // Split data
+    // let textSplitter = new RecursiveCharacterTextSplitter({
+    //     chunkSize: 500,
+    //     chunkOverlap: 0,
+    // });
 
-    // Embed and store in vector store
-    let embeddings = new OpenAIEmbeddings({
-        openAIApiKey: "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"
-    });
+    // let splitDocs = await textSplitter.splitDocuments(docs);
 
-    let vectorstore = await MemoryVectorStore.fromDocuments(splitDocs, embeddings);
+    // // Embed and store in vector store
+    // let embeddings = new OpenAIEmbeddings({
+    //     openAIApiKey: "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"
+    // });
 
-    // memory
-    let memory = new BufferMemory({
-        memoryKey: "chat_history",
-        returnMessages: true,
-    });
+    // let vectorstore = await MemoryVectorStore.fromDocuments(splitDocs, embeddings);
+
+    // // memory
+    // let memory = new BufferMemory({
+    //     memoryKey: "chat_history",
+    //     returnMessages: true,
+    // });
 
     const model = new ChatOpenAI({
         temperature: 0,
         modelName: "gpt-3.5-turbo",
-        openAIApiKey: "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",
+        openAIApiKey: process.env.OPENAI_API_KEY,
 
     });
 
-    //initializing chain
-    globalThis.CSV_CHAIN = ConversationalRetrievalQAChain.fromLLM(model, vectorstore.asRetriever(), {
-        memory
-    });
+    // //initializing chain
+    // globalThis.CSV_CHAIN = ConversationalRetrievalQAChain.fromLLM(model, vectorstore.asRetriever(), {
+    //     memory
+    // });
 
     let chatPrompt = null;
     // let second_agent_chatPrompt = null;
