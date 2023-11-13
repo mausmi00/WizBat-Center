@@ -29,7 +29,7 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
     category: item.category.name,
     // size: item.size.name,
     // color: item.color.value,
-    image: item.images[0],
+    image: item.images[0]?.url || "", // Use the url from the first image or an empty string if no images
     createdAt: format(item.createdAt, "MMMM do, yyyy"),
   }));
 
