@@ -86,9 +86,10 @@ const SheetDisplay = () => {
         console.log(error);
       })
       .finally(() => {
+        // console.log("messages 1: ", messages)
         setNewMessageSent(false);
       });
-  }, [newMessageSent]);
+  }, [newMessageSent, messages]);
 
   const onClick = () => {
     setIsLoading(true);
@@ -107,7 +108,7 @@ const SheetDisplay = () => {
             setMessages(data.data);
             convoId = data.data[1];
           }
-          // console.log("messages: ", messages);
+          // console.log("messages 2: ", messages);
         });
       })
       .finally(() => {

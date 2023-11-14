@@ -1,14 +1,10 @@
-import { useCallback, useRef, useState } from "react";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import MessageInput from "./messageInput";
-import { HiPaperAirplane, HiEllipsisHorizontal } from "react-icons/hi2";
-import { Conversation } from "@prisma/client";
-import prismadb from "@/lib/prismadb";
+import { HiPaperAirplane } from "react-icons/hi2";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { UserProfile, useUser } from "@clerk/nextjs";
-import getAiResponse from "@/app/api/[storeId]/robin/components/getAiResponse";
 import { ChainValues } from "langchain/dist/schema";
 
 declare global {

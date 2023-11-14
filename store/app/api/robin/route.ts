@@ -1,6 +1,7 @@
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server"
 import getAiResponse from "./components/getAiResponse";
+import MemoryChain from "./components/memoryChain";
 
 declare global {
     var userId: string | null | undefined;
@@ -8,6 +9,10 @@ declare global {
 
 export async function POST(request: Request) {
     try {
+
+        if (globalThis.CHAIN == null) {
+            MemoryChain()
+        }
         const req = await request.json();
         const { message } = req;
         // const { userId } = auth();

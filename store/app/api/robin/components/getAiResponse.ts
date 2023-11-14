@@ -23,11 +23,11 @@ const getAiResponse = async (chain: ConversationChain, input: string) => {
     try {
         console.log("input getAiResponse: ", input)
         
-        while (chain == null) {
-            if (chain == null) {
-                await delay(1000); // Adjust the delay time as needed
-            }
-        }
+        // while (chain == null) {
+        //     if (chain == null) {
+        //         await delay(1000); // Adjust the delay time as needed
+        //     }
+        // }
 
         let response = await chain.call({
             input: input,

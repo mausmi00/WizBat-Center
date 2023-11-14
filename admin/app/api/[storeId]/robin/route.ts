@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server"
 import exportDataAsCSV from "../export/exportFile";
 import getAiResponse from "./components/getAiResponse";
+import MemoryChain from "./components/memoryChain";
 
 interface IParams {
     storeId: string
@@ -10,6 +11,9 @@ interface IParams {
 
 export async function POST(request: Request) {
     try {
+        if(globalThis.CSV_CHAIN == null) {
+            MemoryChain()
+        }
         const req = await request.json();
         const { message } = req;
         const { userId } = auth();

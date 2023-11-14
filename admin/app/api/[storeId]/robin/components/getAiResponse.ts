@@ -21,11 +21,11 @@ const getAiResponse = async (chain: ConversationalRetrievalQAChain, input: strin
         // const updated_input = `Act like a store owner and respond according to the data provided`
         let response = null
 
-        while (chain == null) {
-            if (chain == null) {
-                await delay(1000); // Adjust the delay time as needed
-            }
-        }
+        // while (chain == null) {
+        //     if (chain == null) {
+        //         await delay(1000); // Adjust the delay time as needed
+        //     }
+        // }
 
         response = await chain.call({
             // question: updated_input,
