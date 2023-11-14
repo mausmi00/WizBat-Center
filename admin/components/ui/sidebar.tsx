@@ -115,11 +115,11 @@ const ContentSeparator = () => {
             >
               <p>Store Settings</p>
             </Sidebar.Item>
-            <div className="absolute bottom-0">
+            {/* <div className="absolute bottom-0">
               <Sidebar.Item>
                 <UserButton afterSignOutUrl="/" />
               </Sidebar.Item>
-            </div>
+            </div> */}
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>

@@ -31,7 +31,7 @@ const Navbar = async () => {
           <StoreSwitcher items={stores} />
           <SheetDisplay />
           <ThemeToggle />
-          {/* <UserButton afterSignOutUrl="/" /> */}
+          <UserButton afterSignOutUrl="/" />
         </div>
       </div>
     </div>
