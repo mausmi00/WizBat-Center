@@ -1,7 +1,8 @@
 import { createObjectCsvWriter } from 'csv-writer';
 import { PrismaClient } from "@prisma/client";
+import path from 'path';
 
-const exportDataAsCSV = async() => {
+const exportDataAsCSV = async () => {
     const prisma = new PrismaClient();
     console.log("export called!!!")
     try {
@@ -101,13 +102,17 @@ left join OrderItem oi on oi.productId = p.id
 left join OrderPlaced op on oi.orderId = op.id;`;
 
         // console.log("Result :", result);
+        // getting the absolute path
+        const absolutePath = path.join(__dirname, 'data', 'storeInfo.csv');
         const csvWriter = createObjectCsvWriter({
-            path: "./data/storeInfo.csv",
+            path: absolutePath,
             header: header,
             append: false
         })
 
-        await csvWriter.writeRecords(result);
+        await csvWriter.writeRecords(result)
+            .then(() => console.log('CSV file successfully written'))
+            .catch((error) => console.error('Error writing CSV file:', error));
 
         console.log('CSV files have been written.');
     } catch (error) {
