@@ -15,6 +15,7 @@ interface ProductCardProps {
   data: Product;
 }
 const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
+  // console.log("data name: ", data.name);
   const router = useRouter();
   const previewModal = usePreviewModal();
   const cart = useCart();
@@ -62,7 +63,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data }) => {
         </div>
       </div>
       <div>
-        <p className="font-semibold text-lg">{data.name}</p>
+        <p className="font-semibold text-gray-800">{data.name}</p>
         <p className="text-sm text-gray-500">{data.category?.name}</p>
       </div>
       <div className="flex items-center justify-between">

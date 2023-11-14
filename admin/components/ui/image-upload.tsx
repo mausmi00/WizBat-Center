@@ -20,7 +20,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
   onChange,
   onRemove,
-  value
+  value,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -126,8 +126,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
           };
           const onClickImageGenerator = async () => {
             // const image_url: string = ImageGenerator();
-
-            imageGenerator();
+            setLoading(true);
+            imageGenerator().then(() => {
+              setLoading(false);
+            });
 
             // <CldImage src="
             // https://oaidalleapiprodscus.blob.core.windows.net/private/org-zPPSy8C6avKOolzJnjmd2HjY/user-bNID8zWt6W85dzh6FMwgr2jC/img-cLQMEdYs9SbnqPEvjawRak2X.png?st=2023-09-04T18%3A57%3A59Z&se=2023-09-04T20%3A57%3A59Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-04T18%3A49%3A38Z&ske=2023-09-05T18%3A49%3A38Z&sks=b&skv=2021-08-06&sig=dodRlsrPXHMroQgh1UIJoiu/MEgYt7P26eaLxbYFbQg%3D
@@ -161,15 +163,30 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
                   className="max-w-sm p-8"
                 />
                 <div className="mt-5">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    disabled={disabled}
-                    onClick={onClickImageGenerator}
-                  >
-                    <ImagePlus className="h-4 w-4 mr-2" />
-                    Use AI Generated Image
-                  </Button>
+                  {loading ? (
+                    <>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        disabled={loading}
+                        onClick={onClickImageGenerator}
+                      >
+                        Generating Image...
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        disabled={loading}
+                        onClick={onClickImageGenerator}
+                      >
+                        <ImagePlus className="h-4 w-4 mr-2" />
+                        Use AI Generated Image
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

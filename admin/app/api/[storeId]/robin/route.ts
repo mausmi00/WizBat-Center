@@ -11,8 +11,12 @@ interface IParams {
 
 export async function POST(request: Request) {
     try {
-        if(globalThis.CSV_CHAIN == null) {
-            MemoryChain()
+        if (globalThis.CSV_CHAIN == null) {
+            exportDataAsCSV().then(() => {
+                MemoryChain();
+            }).catch((error: any) => {
+                return new NextResponse('Internal Error', { status: 500 })
+            })
         }
         const req = await request.json();
         const { message } = req;
@@ -120,14 +124,14 @@ export async function GET(request: Request, { params }: { params: IParams }) {
 
         let getMessages = null
         // if (convoMessages.length != 0) {
-            getMessages = await prismadb?.message.findMany({
-                where: {
-                    conversationId: convoMessages[0]?.id,
-                },
-                orderBy: {
-                    createdAt: 'asc'
-                }
-            })
+        getMessages = await prismadb?.message.findMany({
+            where: {
+                conversationId: convoMessages[0]?.id,
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
+        })
         // }
 
         return NextResponse.json(getMessages)
@@ -160,17 +164,17 @@ export async function DELETE(request: Request, { params }: { params: IParams }) 
         let getMessages = null;
 
         // if (convoMessages.length != 0) {
-            getMessages = await prismadb?.message.deleteMany({
-                where: {
-                    conversationId: convoMessages[0]?.id
-                }
-            });
+        getMessages = await prismadb?.message.deleteMany({
+            where: {
+                conversationId: convoMessages[0]?.id
+            }
+        });
 
-            deleteConvo = await prismadb?.conversation.deleteMany({
-                where: {
-                    id: convoMessages[0]?.id
-                }
-            })
+        deleteConvo = await prismadb?.conversation.deleteMany({
+            where: {
+                id: convoMessages[0]?.id
+            }
+        })
         // }
         return NextResponse.json(deleteConvo)
 
