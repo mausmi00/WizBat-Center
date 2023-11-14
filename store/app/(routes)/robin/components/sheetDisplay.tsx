@@ -38,6 +38,7 @@ const SheetDisplay = () => {
   const [isConnected, setIsConnected] = useState(false);
   const URL = = process.env.API_GATEWAY;
   const router = useRouter();
+  const isInitialRender = useRef(true);
 
   const params = useParams();
   globalThis.socket = useRef<WebSocket | null>(null);
@@ -62,17 +63,21 @@ const SheetDisplay = () => {
           name: "user",
         })
       );
-      console.log("socket.current: ", socket.current)
+      console.log("socket.current: ", socket.current);
       socket.current?.addEventListener("close", onClose);
       socket.current?.addEventListener("message", (event: { data: string }) => {
         setNewMessageSent(true);
-        // console.log("socket called!!!")
         // console.log("response: ", JSON.parse(event.data).message);
       });
     };
   }, []);
 
   useEffect(() => {
+    // don't fetch all the previous messages on opening the chat
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
     axios
       .get(`/api/robin`)
       .then((data) => {

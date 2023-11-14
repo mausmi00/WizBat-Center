@@ -9,8 +9,8 @@ import ToastProvider from "@/providers/toastProvider";
 const font = Urbanist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Store",
-  description: "Store",
+  title: "WizCart",
+  description: "WizCart",
 };
 
 export default function RootLayout({

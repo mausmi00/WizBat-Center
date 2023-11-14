@@ -28,7 +28,7 @@ const ContentSeparator = () => {
             <TbBat size={30} />
           </div>
           <div>
-            <Sidebar.Logo href="#" img="">
+            <Sidebar.Logo href="/" img="">
               BatVault
             </Sidebar.Logo>
           </div>
