@@ -27,7 +27,7 @@ const MemoryChain = async () => {
     console.log("initalized!!!")
     try {
         // Load data
-        let loader = new CSVLoader("./data/storeInfo.csv/");
+        let loader = new CSVLoader(globalThis.file_path);
         let docs = await loader.load();
 
         // Split data

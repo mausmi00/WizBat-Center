@@ -4,6 +4,10 @@ import path from 'path';
 import os from 'os';
 import fs from 'fs';
 
+
+declare global {
+    var file_path: string
+}
 const exportDataAsCSV = async () => {
     const prisma = new PrismaClient();
     console.log("export called!!!")
@@ -108,8 +112,9 @@ left join OrderPlaced op on oi.orderId = op.id;`;
         // const absolutePath = path.join(__dirname, 'storeInfo.csv');
         // console.log(__dirname)
         const tempDir = os.tmpdir();
+        globalThis.file_path = path.join(tempDir, 'storeInfo.csv');
         const csvWriter = createObjectCsvWriter({
-            path: path.join(tempDir, 'storeInfo.csv'),
+            path: file_path,
             header: header,
             append: false
         })
@@ -119,8 +124,7 @@ left join OrderPlaced op on oi.orderId = op.id;`;
             .catch((error) => console.error('Error writing CSV file:', error));
 
         console.log('CSV files have been written.');
-        // const fileContent = fs.readFileSync(path.join(tempDir, 'storeInfo.csv'), 'utf-8');
-        // console.log(fileContent)
+        
     } catch (error) {
         console.error('Error exporting data:', error);
     }

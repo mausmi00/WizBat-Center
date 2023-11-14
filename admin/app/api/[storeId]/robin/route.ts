@@ -11,13 +11,13 @@ interface IParams {
 
 export async function POST(request: Request) {
     try {
-        if (globalThis.CSV_CHAIN == null) {
-            exportDataAsCSV().then(() => {
-                MemoryChain();
-            }).catch((error: any) => {
-                return new NextResponse('Internal Error', { status: 500 })
-            })
-        }
+        // if (globalThis.CSV_CHAIN == undefined) {
+        //     exportDataAsCSV().then(() => {
+        //         MemoryChain();
+        //     }).catch((error: any) => {
+        //         return new NextResponse('Internal Error', { status: 500 })
+        //     })
+        // }
         const req = await request.json();
         const { message } = req;
         const { userId } = auth();

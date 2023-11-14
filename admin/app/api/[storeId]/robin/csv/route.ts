@@ -10,13 +10,11 @@ interface IParams {
 export async function GET(request: Request, { params }: { params: IParams }) {
     const { storeId } = params;
     // console.log("in csv file!")
-    exportDataAsCSV().then(() => {
-        MemoryChain();
-    }).catch((error: any) => {
-        return new NextResponse('Internal Error', { status: 500 })
-    })
-
     try {
+        exportDataAsCSV().then(() => {
+            MemoryChain();
+        });
+
         const storeOwner = await prismadb.store.findUnique({
             where: {
                 id: storeId,
@@ -44,7 +42,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         })
         // }
 
-
+        console.log("globalthis CSV: ", globalThis.CSV_CHAIN)
         return NextResponse.json(getMessages)
 
     } catch (error: any) {
