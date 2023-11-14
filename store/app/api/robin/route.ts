@@ -55,7 +55,7 @@ export async function POST(request: Request) {
             });
 
             const response = await getAiResponse(globalThis.CHAIN, message);
-            // console.log("reponse getAi1: ", response)
+            console.log("reponse getAi1: ", response)
             const messageResponse = await prismadb.message.create({
                 data: {
                     body: response,
@@ -83,7 +83,7 @@ export async function POST(request: Request) {
         });
 
         const response = await getAiResponse(globalThis.CHAIN, message);
-        // console.log("reponse getAi2: ", response)
+        console.log("reponse getAi2: ", response)
         const messageResponse = await prismadb.message.create({
             data: {
                 body: response,
@@ -124,16 +124,16 @@ export async function GET(request: Request) {
 
         let getMessages = null;
 
-        if (convoMessages.length != 0) {
-            getMessages = await prismadb?.message.findMany({
-                where: {
-                    conversationId: convoMessages[0]?.id,
-                },
-                orderBy: {
-                    createdAt: 'asc'
-                }
-            })
-        }
+        // if (convoMessages.length != 0) {
+        getMessages = await prismadb?.message.findMany({
+            where: {
+                conversationId: convoMessages[0]?.id,
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
+        })
+        // }
 
         return NextResponse.json(getMessages)
 
@@ -164,19 +164,19 @@ export async function DELETE(request: Request) {
         let getMessages = null;
         let deleteConvo = null;
 
-        if (convoMessages.length != 0) {
-            getMessages = await prismadb?.message.deleteMany({
-                where: {
-                    conversationId: convoMessages[0]?.id
-                }
-            });
+        // if (convoMessages.length != 0) {
+        getMessages = await prismadb?.message.deleteMany({
+            where: {
+                conversationId: convoMessages[0]?.id
+            }
+        });
 
-            deleteConvo = await prismadb?.conversation.deleteMany({
-                where: {
-                    id: convoMessages[0]?.id
-                }
-            })
-        }
+        deleteConvo = await prismadb?.conversation.deleteMany({
+            where: {
+                id: convoMessages[0]?.id
+            }
+        })
+        // }
 
         return NextResponse.json(deleteConvo)
 

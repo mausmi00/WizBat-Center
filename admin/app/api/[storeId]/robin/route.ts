@@ -119,7 +119,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         });
 
         let getMessages = null
-        if (convoMessages.length != 0) {
+        // if (convoMessages.length != 0) {
             getMessages = await prismadb?.message.findMany({
                 where: {
                     conversationId: convoMessages[0]?.id,
@@ -128,7 +128,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
                     createdAt: 'asc'
                 }
             })
-        }
+        // }
 
         return NextResponse.json(getMessages)
 
@@ -159,7 +159,7 @@ export async function DELETE(request: Request, { params }: { params: IParams }) 
         let deleteConvo = null;
         let getMessages = null;
 
-        if (convoMessages.length != 0) {
+        // if (convoMessages.length != 0) {
             getMessages = await prismadb?.message.deleteMany({
                 where: {
                     conversationId: convoMessages[0]?.id
@@ -171,7 +171,7 @@ export async function DELETE(request: Request, { params }: { params: IParams }) 
                     id: convoMessages[0]?.id
                 }
             })
-        }
+        // }
         return NextResponse.json(deleteConvo)
 
     } catch (error) {

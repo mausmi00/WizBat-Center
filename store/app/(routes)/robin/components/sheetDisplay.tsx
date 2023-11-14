@@ -42,7 +42,6 @@ const SheetDisplay = () => {
   const params = useParams();
   globalThis.socket = useRef<WebSocket | null>(null);
   let convoId = null;
-
   const onClose = () => {
     setOpen(false);
     socket?.current?.close();
@@ -63,9 +62,11 @@ const SheetDisplay = () => {
           name: "user",
         })
       );
+      console.log("socket.current: ", socket.current)
       socket.current?.addEventListener("close", onClose);
       socket.current?.addEventListener("message", (event: { data: string }) => {
         setNewMessageSent(true);
+        // console.log("socket called!!!")
         // console.log("response: ", JSON.parse(event.data).message);
       });
     };
@@ -89,7 +90,7 @@ const SheetDisplay = () => {
         // console.log("messages 1: ", messages)
         setNewMessageSent(false);
       });
-  }, [newMessageSent, messages]);
+  }, [newMessageSent]);
 
   const onClick = () => {
     setIsLoading(true);

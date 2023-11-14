@@ -13,7 +13,7 @@ export async function GET(request: Request, { params }: { params: IParams }) {
     exportDataAsCSV().then(() => {
         MemoryChain();
     }).catch((error: any) => {
-        return new NextResponse('CSV Internal Error', { status: 500 })
+        return new NextResponse('Internal Error', { status: 500 })
     })
 
     try {
@@ -33,16 +33,16 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         });
 
         let getMessages = null
-        if (convoMessages.length != 0) {
-            getMessages = await prismadb?.message.findMany({
-                where: {
-                    conversationId: convoMessages[0]?.id
-                },
-                orderBy: {
-                    createdAt: 'asc'
-                }
-            })
-        }
+        // if (convoMessages.length != 0) {
+        getMessages = await prismadb?.message.findMany({
+            where: {
+                conversationId: convoMessages[0]?.id
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
+        })
+        // }
 
 
         return NextResponse.json(getMessages)

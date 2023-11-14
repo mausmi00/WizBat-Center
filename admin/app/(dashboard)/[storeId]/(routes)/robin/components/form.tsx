@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import MessageInput from "./messageInput";
 import { HiPaperAirplane } from "react-icons/hi2";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { ChainValues } from "langchain/dist/schema";
@@ -15,10 +15,12 @@ interface FormProps {
   storeId: string;
 }
 
-const Form: React.FC<FormProps> = ({ storeId }) => {
+const Form: React.FC<FormProps> = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
+  const params = useParams();
+  const storeId = params?.storeId;
 
   const {
     register,
