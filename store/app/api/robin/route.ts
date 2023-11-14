@@ -120,7 +120,7 @@ export async function GET(request: Request) {
         let getMessages = null;
 
         if (convoMessages.length != 0) {
-            getMessages = await prisma?.message.findMany({
+            getMessages = await prismadb?.message.findMany({
                 where: {
                     conversationId: convoMessages[0]?.id,
                 },
@@ -160,13 +160,13 @@ export async function DELETE(request: Request) {
         let deleteConvo = null;
 
         if (convoMessages.length != 0) {
-            getMessages = await prisma?.message.deleteMany({
+            getMessages = await prismadb?.message.deleteMany({
                 where: {
                     conversationId: convoMessages[0]?.id
                 }
             });
 
-            deleteConvo = await prisma?.conversation.deleteMany({
+            deleteConvo = await prismadb?.conversation.deleteMany({
                 where: {
                     id: convoMessages[0]?.id
                 }

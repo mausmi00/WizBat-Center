@@ -6,6 +6,7 @@ import exportDataAsCSV from "../../export/exportFile";
 export async function GET(request: Request) {
 
     MemoryChain();
+    console.log("in get")
     // const {user} = useUser();
     // console.log("user image: ", user?.imageUrl);
     try {
@@ -29,7 +30,7 @@ export async function GET(request: Request) {
 
         let getMessages = null;
         if (convoMessages != null) {
-            getMessages = await prisma?.message.findMany({
+            getMessages = await prismadb?.message.findMany({
                 where: {
                     conversationId: convoMessages[0]?.id
                 },
