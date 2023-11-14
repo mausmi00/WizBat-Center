@@ -12,12 +12,23 @@ declare global {
     var dishName: string;
 }
 
+// Helper function for delaying
+function delay(ms: any) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const getAiResponse = async (chain: ConversationChain, input: string) => {
 
     // const [setIsLoading, isLoading]  = useState(false)
-
     try {
         console.log("input getAiResponse: ", input)
+        
+        while (chain == null) {
+            if (chain == null) {
+                await delay(1000); // Adjust the delay time as needed
+            }
+        }
+
         let response = await chain.call({
             input: input,
         });
