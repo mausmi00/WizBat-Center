@@ -103,9 +103,10 @@ left join OrderPlaced op on oi.orderId = op.id;`;
 
         // console.log("Result :", result);
         // getting the absolute path
-        const absolutePath = path.join(__dirname, 'data', 'storeInfo.csv');
+        // const absolutePath = path.join(__dirname, 'storeInfo.csv');
+        // console.log(__dirname)
         const csvWriter = createObjectCsvWriter({
-            path: absolutePath,
+            path: 'storeInfo.csv',
             header: header,
             append: false
         })
