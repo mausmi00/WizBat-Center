@@ -95,7 +95,6 @@ export async function POST(request: Request) {
                 }
             }
         });
-        // console.log("message: ", messageResponse)
 
         return NextResponse.json([newMessage, messageResponse, globalThis.ingredientsInStore, globalThis.ingredientsNotInStore, globalThis.ingredientsAdded, globalThis.dishName])
 
@@ -122,10 +121,7 @@ export async function GET(request: Request) {
             },
         });
 
-        let getMessages = null;
-
-        // if (convoMessages.length != 0) {
-        getMessages = await prismadb?.message.findMany({
+        const getMessages = await prismadb?.message.findMany({
             where: {
                 conversationId: convoMessages[0]?.id,
             },
@@ -133,7 +129,6 @@ export async function GET(request: Request) {
                 createdAt: 'asc'
             }
         })
-        // }
 
         return NextResponse.json(getMessages)
 
@@ -161,22 +156,17 @@ export async function DELETE(request: Request) {
             },
         });
 
-        let getMessages = null;
-        let deleteConvo = null;
-
-        // if (convoMessages.length != 0) {
-        getMessages = await prismadb?.message.deleteMany({
+        const getMessages = await prismadb?.message.deleteMany({
             where: {
                 conversationId: convoMessages[0]?.id
             }
         });
 
-        deleteConvo = await prismadb?.conversation.deleteMany({
+        const deleteConvo = await prismadb?.conversation.deleteMany({
             where: {
                 id: convoMessages[0]?.id
             }
         })
-        // }
 
         return NextResponse.json(deleteConvo)
 

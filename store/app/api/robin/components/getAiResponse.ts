@@ -18,16 +18,7 @@ function delay(ms: any) {
 }
 
 const getAiResponse = async (chain: ConversationChain, input: string) => {
-
-    // const [setIsLoading, isLoading]  = useState(false)
     try {
-        console.log("input getAiResponse: ", input)
-        
-        // while (chain == null) {
-        //     if (chain == null) {
-        //         await delay(1000); // Adjust the delay time as needed
-        //     }
-        // }
 
         let response = await chain.call({
             input: input,
@@ -66,7 +57,7 @@ const getAiResponse = async (chain: ConversationChain, input: string) => {
             global.ingredientsAdded = true;
             await AddIngredientsToCart(globalThis.allIngredients);
         }
-
+        console.log("right before returning: ", response)
         return response;
     } catch (error: any) {
         console.log(error, 'ERROR_AI_RESPONSE');

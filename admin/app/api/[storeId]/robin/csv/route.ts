@@ -9,7 +9,7 @@ interface IParams {
 
 export async function GET(request: Request, { params }: { params: IParams }) {
     const { storeId } = params;
-    // console.log("in csv file!")
+    
     try {
         exportDataAsCSV().then(() => {
             MemoryChain();
@@ -40,9 +40,6 @@ export async function GET(request: Request, { params }: { params: IParams }) {
                 createdAt: 'asc'
             }
         })
-        // }
-
-        console.log("globalthis CSV: ", globalThis.CSV_CHAIN)
         return NextResponse.json(getMessages)
 
     } catch (error: any) {
@@ -50,6 +47,4 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         return new NextResponse('Internal Error', { status: 500 })
     }
 
-    // const {user} = useUser();
-    // console.log("user image: ", user?.imageUrl);
 }

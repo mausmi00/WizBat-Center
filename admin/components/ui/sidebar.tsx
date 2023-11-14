@@ -1,24 +1,14 @@
 "use client";
 
 import { Sidebar } from "flowbite-react";
-import {
-  HiArrowSmRight,
-  HiChartPie,
-  HiInbox,
-  HiShoppingBag,
-  HiTable,
-  HiUser,
-  HiViewBoards,
-} from "react-icons/hi";
-import { BiBuoy } from "react-icons/bi";
-import { redirect, useParams } from "next/navigation";
-import { UserButton, auth } from "@clerk/nextjs";
+import { useParams } from "next/navigation";
 import { VscGraph } from "react-icons/vsc";
 import { FaRegImages } from "react-icons/fa";
 import { FiShoppingBag } from "react-icons/fi";
 import { CiShoppingTag } from "react-icons/ci";
 import { MdOutlineCategory } from "react-icons/md";
 import { BsCashCoin } from "react-icons/bs";
+import { TbBat } from "react-icons/tb";
 import {
   AiOutlineShoppingCart,
   AiOutlineLoading3Quarters,
@@ -33,9 +23,16 @@ const ContentSeparator = () => {
   return (
     <div className="h-screen sticky top-0">
       <Sidebar aria-label="Sidebar" className="z-2">
-        <Sidebar.Logo href="#" img="">
-          BatVault
-        </Sidebar.Logo>
+        <div className="flex flex-row">
+        <div>
+            <TbBat size={30} />
+          </div>
+          <div>
+            <Sidebar.Logo href="#" img="">
+              BatVault
+            </Sidebar.Logo>
+          </div>
+        </div>
         <Sidebar.Items className="mt-10">
           <Sidebar.ItemGroup>
             {/* <Sidebar.Item href={`/${params.storeId}`} icon={HiChartPie}>

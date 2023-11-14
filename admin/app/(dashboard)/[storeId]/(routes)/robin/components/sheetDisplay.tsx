@@ -49,12 +49,8 @@ const SheetDisplay = () => {
   };
 
   const onConnect = useCallback(() => {
-    // console.log("name: ", globalThis.user?.firstName);
-    // console.log("chain: ", globalThis.CHAIN);
     socket.current = new WebSocket(URL);
-    // console.log("socket.current.readyState: ", socket.current.readyState);
     socket.current.onopen = function () {
-      // console.log("inside");
       socket.current?.send(
         JSON.stringify({
           action: "setName",
@@ -64,7 +60,6 @@ const SheetDisplay = () => {
       socket.current?.addEventListener("close", onClose);
       socket.current?.addEventListener("message", (event: { data: string }) => {
         setNewMessageSent(true);
-        // console.log("response: ", JSON.parse(event.data).message);
       });
     };
   }, []);
@@ -73,7 +68,6 @@ const SheetDisplay = () => {
     axios
       .get(`/api/${storeId}/robin`)
       .then((data) => {
-        // console.log(data);
         if (data != null && data.data != null) {
           setMessages(data.data);
           convoId = data.data[1];
@@ -92,25 +86,20 @@ const SheetDisplay = () => {
     axios
       .delete(`/api/${storeId}/robin`)
       .then((data) => {
-        // console.log("data: ", data);
         setMessages(null);
       })
       .then(() => {
         setOpen(true);
-        // console.log("here calling csv")
         axios.get(`/api/${storeId}/robin/csv`).then((data) => {
           onConnect();
-          // console.log(data);
           if (data != null && data.data != null) {
             setMessages(data.data);
             convoId = data.data[1];
           }
-          // console.log("messages: ", messages);
         });
       })
       .finally(() => {
         setIsLoading(false);
-        // console.log("global csv: ", globalThis.CSV_CHAIN)
       })
       .catch(() => toast.error("Something went wrong!"));
   };

@@ -160,22 +160,18 @@ export async function DELETE(request: Request, { params }: { params: IParams }) 
             },
         });
 
-        let deleteConvo = null;
-        let getMessages = null;
-
-        // if (convoMessages.length != 0) {
-        getMessages = await prismadb?.message.deleteMany({
+        const getMessages = await prismadb?.message.deleteMany({
             where: {
                 conversationId: convoMessages[0]?.id
             }
         });
 
-        deleteConvo = await prismadb?.conversation.deleteMany({
+        const deleteConvo = await prismadb?.conversation.deleteMany({
             where: {
                 id: convoMessages[0]?.id
             }
         })
-        // }
+        
         return NextResponse.json(deleteConvo)
 
     } catch (error) {

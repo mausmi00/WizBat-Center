@@ -15,7 +15,6 @@ interface ProductClientProps {
 export const ProductClient: React.FC<ProductClientProps> = ({ data }) => {
   const router = useRouter();
   const params = useParams();
-
   return (
     <>
       <div className="flex items-center justify-between">

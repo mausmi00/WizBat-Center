@@ -5,15 +5,9 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
-import { ConversationChain, ConversationalRetrievalQAChain, VectorDBQAChain } from "langchain/chains";
+import { ConversationalRetrievalQAChain } from "langchain/chains";
 import { BufferMemory } from "langchain/memory";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import {
-    ChatPromptTemplate,
-    HumanMessagePromptTemplate,
-    SystemMessagePromptTemplate,
-    MessagesPlaceholder,
-} from "langchain/prompts";
 import { NextResponse } from "next/server";
 
 
@@ -24,7 +18,7 @@ declare global {
 }
 
 const MemoryChain = async () => {
-    console.log("initalized!!!")
+    // console.log("initalized!!!")
     try {
         // Load data
         let loader = new CSVLoader(globalThis.file_path);
@@ -44,17 +38,6 @@ const MemoryChain = async () => {
         });
 
         let vectorstore = await MemoryVectorStore.fromDocuments(splitDocs, embeddings);
-        // console.log("vectorstore: ", vectorstore)
-        // // memory
-        // let memory = new BufferMemory({
-        //     memoryKey: "chat_history",
-        //     returnMessages: true,
-        //     // humanPrefix: "You are a store owner and you have the data provided in the csv file. Keep your responses short."
-        //     // humanPrefix:
-        //     //   "You are a good assistant that answers question based on the document info you have. If you don't have any information just say I don't know. Answer question with the same language of the question",
-        //     // inputKey: "question", // The key for the input to the chain
-        //     // outputKey: "text",
-        // });
 
         // creating model
         const model = new ChatOpenAI({
@@ -62,21 +45,6 @@ const MemoryChain = async () => {
             modelName: "gpt-3.5-turbo",
             openAIApiKey: process.env.OPENAI_API_KEY,
         });
-
-        //initializing chain
-        // globalThis.CSV_CHAIN = ConversationalRetrievalQAChain.fromLLM(model, vectorstore.asRetriever(), {
-        //     memory
-        // });
-
-        // let chatPrompt = null;
-
-        // chatPrompt = ChatPromptTemplate.fromPromptMessages([
-        //     SystemMessagePromptTemplate.fromTemplate(
-        //         "Please provide a precise list of ingredients needed to make a particular dish. Separate each ingredient with a comma. For example: 'ingredient 1, ingredient 2, ingredient 3, ...' Thank you!"
-        //     ),
-        //     new MessagesPlaceholder("history"),
-        //     HumanMessagePromptTemplate.fromTemplate("{input}"),
-        // ]);
 
         let retriever = vectorstore.asRetriever()
         retriever.k = 1000
