@@ -47,7 +47,7 @@ const ContentSeparator = () => {
               href={`/${params.storeId}/placards`}
               icon={FaRegImages}
             >
-              <p>Placards</p>
+              <p>Billboards</p>
             </Sidebar.Item>
 
             <Sidebar.Collapse icon={FiShoppingBag} label="Products">

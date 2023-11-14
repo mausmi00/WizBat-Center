@@ -19,7 +19,7 @@ const ApiReference = () => {
           variant="public"
         />
         <Separator />
-        <Heading title="Placards API" description="API calls for Placards" />
+        <Heading title="BillBoards API" description="API calls for BillBoards" />
         <ApiList entityName="placards" entityIdName="placardId" />
         <Separator />
         <Heading title="Products API" description="API calls for Products" />
