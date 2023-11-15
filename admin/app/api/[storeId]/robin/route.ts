@@ -144,7 +144,9 @@ export async function GET(request: Request, { params }: { params: IParams }) {
 
 export async function DELETE(request: Request, { params }: { params: IParams }) {
     const { storeId } = params;
-
+    exportDataAsCSV().then(() => {
+        MemoryChain();
+    });
     try {
         const storeOwner = await prismadb.store.findUnique({
             where: {

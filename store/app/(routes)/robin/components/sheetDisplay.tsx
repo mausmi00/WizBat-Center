@@ -75,7 +75,6 @@ const SheetDisplay = () => {
   useEffect(() => {
     // don't fetch all the previous messages on opening the chat
     if (isInitialRender.current) {
-      isInitialRender.current = false;
       return;
     }
     axios
@@ -102,6 +101,8 @@ const SheetDisplay = () => {
     axios
       .delete(`/api/robin`)
       .then((data) => {
+        // fetch and display data from useEffect now
+        isInitialRender.current = false
         console.log("data: ", data);
         setMessages(null);
       })

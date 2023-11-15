@@ -18,6 +18,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log = console.warn = console.error = () => {};
   return (
     <html lang="en">
       <body className={font.className}>
