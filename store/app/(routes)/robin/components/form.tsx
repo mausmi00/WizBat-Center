@@ -64,36 +64,20 @@ const Form = () => {
         ...data,
       })
       .then((response) => {
-        console.log("within: ", response);
         globalThis.ingredientsInStore = response.data[2];
         globalThis.ingredientsNotInStore = response.data[3];
         globalThis.ingredientsAdded = response.data[4];
         // dishName = response.data[5];
 
-        console.log("ingredients: ", response);
 
         if (globalThis.ingredientsAdded === true) {
-          console.log("adding ingredientssss!!!!");
           setIsLoadingModal(true);
-          // const message = "Add ingredients to cart?";
-          // onSocketMessage(message, "user").then(() => {
-          //   axios.post(`/api/robin`, {
-          //     message,
-          //   }).then((response) => {
-
-          //   })
-          // });
-          // cart.removeAll();
-          // console.log("data sent: ", data)
           setTimeout(() => {
             cartAdd();
             setIsLoadingModal(false);
           }, 1000);
         }
         onSocketMessage(data.message, "user");
-        // onSocketMessage(response[1], globalThis.user?.firstName);
-        // agentResponseGenerated(data.message);
-        // onSocketMessage(globalThis.agentResponse, "Robin");
       })
       .catch(() => {
         toast.error("Something went wrong. Please refresh.");
@@ -101,8 +85,6 @@ const Form = () => {
   };
 
   const cartAdd = () => {
-    // const added: boolean = cart.addDish(dishName);
-    // if (added === true) {
     if (
       globalThis.ingredientsInStore !== null &&
       globalThis.ingredientsInStore !== undefined
@@ -110,7 +92,6 @@ const Form = () => {
       for (let ingre of globalThis.ingredientsInStore) {
         cart.addItem(ingre);
         console.log("added found: ", ingre.name);
-        // }
       }
     }
 
@@ -131,9 +112,6 @@ const Form = () => {
   };
 
   const defaultMessage = (
-    //  isLoadingModal ? (
-    //   <LoadingModal />
-    // ) : (
     <>
       <form
         onSubmit={handleSubmit(onSubmit)}

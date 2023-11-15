@@ -80,7 +80,6 @@ export async function POST(request: Request) {
         });
 
         const response = await getAiResponse(globalThis.CSV_CHAIN, message);
-        // console.log("reponse getAi2: ", response)
         const messageResponse = await prismadb.message.create({
             data: {
                 body: response,
@@ -92,8 +91,6 @@ export async function POST(request: Request) {
                 }
             }
         });
-        // console.log("message: ", messageResponse)
-
         return NextResponse.json([newMessage, messageResponse])
 
     } catch (error: any) {
@@ -104,8 +101,7 @@ export async function POST(request: Request) {
 
 export async function GET(request: Request, { params }: { params: IParams }) {
     const { storeId } = params;
-    // const {user} = useUser();
-    // console.log("user image: ", user?.imageUrl);
+    
     try {
         const storeOwner = await prismadb.store.findUnique({
             where: {

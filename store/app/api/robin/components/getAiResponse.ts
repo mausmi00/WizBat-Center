@@ -23,7 +23,6 @@ const getAiResponse = async (chain: ConversationChain, input: string) => {
         let response = await chain.call({
             input: input,
         });
-        console.log("getAiResponse response: ", response)
         if (response.response.includes("Ingredient Mode")) {
             // setIsLoading(true);
             response = response.response.split("Ingredient Mode:")[1];
@@ -57,7 +56,6 @@ const getAiResponse = async (chain: ConversationChain, input: string) => {
             global.ingredientsAdded = true;
             await AddIngredientsToCart(globalThis.allIngredients);
         }
-        console.log("right before returning: ", response)
         return response;
     } catch (error: any) {
         console.log(error, 'ERROR_AI_RESPONSE');

@@ -8,7 +8,6 @@ interface SettingsPageProps {
     storeId: string;
   };
 }
-// console.log("called");
 
 const SettingsPage: React.FC<SettingsPageProps> = async ({ params }) => {
   const { userId } = auth();
@@ -24,7 +23,6 @@ const SettingsPage: React.FC<SettingsPageProps> = async ({ params }) => {
     },
   });
 
-  // console.log("storee: ", store);
   if (!store) {
     redirect("/");
   }

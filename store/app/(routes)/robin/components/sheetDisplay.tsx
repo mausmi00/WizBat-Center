@@ -51,23 +51,18 @@ const SheetDisplay = () => {
   };
 
   const onConnect = useCallback(() => {
-    // console.log("chain: ", globalThis.CHAIN);
     cart.removeAll();
     socket.current = new WebSocket(URL);
-    // console.log("socket.current.readyState: ", socket.current.readyState);
     socket.current.onopen = function () {
-      // console.log("inside");
       socket.current?.send(
         JSON.stringify({
           action: "setName",
           name: "user",
         })
       );
-      console.log("socket.current: ", socket.current);
       socket.current?.addEventListener("close", onClose);
       socket.current?.addEventListener("message", (event: { data: string }) => {
         setNewMessageSent(true);
-        // console.log("response: ", JSON.parse(event.data).message);
       });
     };
   }, []);
@@ -88,10 +83,8 @@ const SheetDisplay = () => {
       })
       .catch((error) => {
         toast.error("Something went wrong!");
-        console.log(error);
       })
       .finally(() => {
-        // console.log("messages 1: ", messages)
         setNewMessageSent(false);
       });
   }, [newMessageSent]);
@@ -103,19 +96,16 @@ const SheetDisplay = () => {
       .then((data) => {
         // fetch and display data from useEffect now
         isInitialRender.current = false
-        console.log("data: ", data);
         setMessages(null);
       })
       .then(() => {
         setOpen(true);
         axios.get(`/api/robin/csv`).then((data) => {
           onConnect();
-          console.log(data);
           if (data != null && data.data != null) {
             setMessages(data.data);
             convoId = data.data[1];
           }
-          // console.log("messages 2: ", messages);
         });
       })
       .finally(() => {

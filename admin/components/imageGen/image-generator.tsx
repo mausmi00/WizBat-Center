@@ -16,7 +16,6 @@ export async function ImageGenerator() {
     size: "256x256",
   });
   let image_url = response.data.data[0].url;
-  console.log("oats result: ", image_url);
   return image_url
 }
 

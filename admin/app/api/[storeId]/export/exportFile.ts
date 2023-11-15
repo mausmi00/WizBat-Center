@@ -10,7 +10,6 @@ declare global {
 }
 const exportDataAsCSV = async () => {
     const prisma = new PrismaClient();
-    console.log("export called!!!")
     try {
 
         const header = [
@@ -106,11 +105,6 @@ const exportDataAsCSV = async () => {
 left join Category c on c.id = p.categoryId
 left join OrderItem oi on oi.productId = p.id
 left join OrderPlaced op on oi.orderId = op.id;`;
-
-        // console.log("Result :", result);
-        // getting the absolute path
-        // const absolutePath = path.join(__dirname, 'storeInfo.csv');
-        // console.log(__dirname)
         const tempDir = os.tmpdir();
         globalThis.file_path = path.join(tempDir, 'storeInfo.csv');
         const csvWriter = createObjectCsvWriter({
@@ -122,8 +116,6 @@ left join OrderPlaced op on oi.orderId = op.id;`;
         await csvWriter.writeRecords(result)
             .then(() => console.log('CSV file successfully written'))
             .catch((error) => console.error('Error writing CSV file:', error));
-
-        console.log('CSV files have been written.');
         
     } catch (error) {
         console.error('Error exporting data:', error);

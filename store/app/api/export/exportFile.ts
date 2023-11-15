@@ -101,7 +101,6 @@ left join Size s on s.id = p.sizeId
 left join OrderItem oi on oi.productId = p.id
 left join OrderPlaced op on oi.orderId = op.id;`;
 
-        // console.log("Result :", result);
         const csvWriter = createObjectCsvWriter({
             path: "./data/storeInfo.csv",
             header: header,

@@ -22,7 +22,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  console.log = console.warn = console.error = () => {};
   return (
     <ClerkProvider>
       <html lang="en">

@@ -71,19 +71,6 @@ const Form: React.FC<FormProps> = () => {
       });
   };
 
-  // const agentResponseGenerated = async (message: string) => {
-  //   console.log("called");
-  //   console.log("chain before: ", global.CHAIN);
-  //   globalThis.agentResponse = await getAiResponse(global.CHAIN, message);
-  //   axios
-  //     .post(`/api/${storeId}/robin`, {
-  //       ...globalThis.agentResponse,
-  //     })
-  //     .catch(() => {
-  //       toast.error("Error occured while generating response.");
-  //     });
-  // };
-
   const defaultMessage = (
     <form
       onSubmit={handleSubmit(onSubmit)}

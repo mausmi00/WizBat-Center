@@ -42,7 +42,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     const configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY_IMAGE_GEN,
     });
-    // console.log("image name is: ", imageName);
 
     const openai = new OpenAIApi(configuration);
     let prompt = `A ${imageDescription} which is to be used as a product image in a store`;
@@ -66,37 +65,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
               data
             )
             .then((response) => {
-              console.log("final repsonse is: ", response);
               onChange(response.data.url);
-              console.log("cloud url: ", response.data.url);
             });
         }
       });
   };
-
-  // const url = constructCloudinaryUrl({
-  //   options: {
-  //     src: 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-zPPSy8C6avKOolzJnjmd2HjY/user-bNID8zWt6W85dzh6FMwgr2jC/img-s8YwbYiSWVDgIFAobMEqYM4E.png?st=2023-09-07T21%3A44%3A49Z&se=2023-09-07T23%3A44%3A49Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-07T18%3A18%3A58Z&ske=2023-09-08T18%3A18%3A58Z&sks=b&skv=2021-08-06&sig=Kyiu5oSGQZmBKwXw2AbydT0U3r1fv4t6g4CISHIYW7U%3D',
-  //     width: 256,
-  //     height: 256
-  //   },
-  //   config: {
-  //     cloud: {
-  //       cloudName: 'doxhicxh0'
-  //     }
-  //   }
-  // });
-
-  // let cloud_url = getCldImageUrl({
-  //   height: 256,
-  //   width: 256,
-  //   src: 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-zPPSy8C6avKOolzJnjmd2HjY/user-bNID8zWt6W85dzh6FMwgr2jC/img-cS4tP5xPbmldOclAipZNxJZu.png?st=2023-09-07T20%3A42%3A33Z&se=2023-09-07T22%3A42%3A33Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-09-07T18%3A16%3A02Z&ske=2023-09-08T18%3A16%3A02Z&sks=b&skv=2021-08-06&sig=hRM9j9JpIWIOJLLBs9npfA3Os6isEADEi4PNSNWjgJk%3D'
-
-  // });
-
-  // let updated_url =
-  //   "https://res.cloudinary.com/doxhicxh0/image/upload/https%3A%2F%2Foaidalleapiprodscus.blob.core.windows.net%2Fprivate%2Forg-zPPSy8C6avKOolzJnjmd2HjY%2Fuser-bNID8zWt6W85dzh6FMwgr2jC%2Fimg-cS4tP5xPbmldOclAipZNxJZu.png%3Fst%3D2023-09-07T20%253A42%253A33Z%26se%3D2023-09-07T22%253A42%253A33Z%26sp%3Dr%26sv%3D2021-08-06%26sr%3Db%26rscd%3Dinline%26rsct%3Dimage%2Fpng%26skoid%3D6aaadede-4fb3-4698-a8f6-684d7786b067%26sktid%3Da48cca56-e6da-484e-a814-9c849652bcb3%26skt%3D2023-09-07T18%253A16%253A02Z%26ske%3D2023-09-08T18%253A16%253A02Z%26sks%3Db%26skv%3D2021-08-06%26sig%3DhRM9j9JpIWIOJLLBs9npfA3Os6isEADEi4PNSNWjgJk%253D";
-
+  
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">
