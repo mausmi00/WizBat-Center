@@ -1,23 +1,15 @@
 import prismadb from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 import MemoryChain from "../components/memoryChain";
-import exportDataAsCSV from "../../export/exportFile";
 
 export async function GET(request: Request) {
 
     MemoryChain();
-    console.log("in get")
-    // const {user} = useUser();
-    // console.log("user image: ", user?.imageUrl);
+
     try {
         if (globalThis.userId === null) {
             return new NextResponse("No user id", { status: 400 })
         }
-        // const storeOwner = await prismadb.store.findUnique({
-        //     where: {
-        //         id: storeId,
-        //     },
-        // });
 
         const convoMessages = await prismadb.conversation.findMany({
             where: {
@@ -28,19 +20,14 @@ export async function GET(request: Request) {
             },
         });
 
-        let getMessages = null;
-        if (convoMessages != null) {
-            getMessages = await prismadb?.message.findMany({
-                where: {
-                    conversationId: convoMessages[0]?.id
-                },
-                orderBy: {
-                    createdAt: 'asc'
-                }
-            })
-        }
-
-        // exportDataAsCSV();
+        const getMessages = await prismadb?.message.findMany({
+            where: {
+                conversationId: convoMessages[0]?.id
+            },
+            orderBy: {
+                createdAt: 'asc'
+            }
+        })
 
         return NextResponse.json(getMessages)
 
