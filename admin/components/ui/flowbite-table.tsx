@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-table";
 import { useState } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 interface HoverStateProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -46,146 +47,98 @@ export function HoverState<TData, TValue>({
   };
 
   return (
-    <Table hoverable>
-      <Table.Head>
-        {table.getHeaderGroups().map((headerGroup) => (
-          <>
-            {headerGroup.headers.map((header) => {
-              return (
-                <Table.HeadCell key={header.id}>
-                  {typeof header.column.columnDef.header === "function"
-                    ? header.column.columnDef.header(header.getContext())
-                    : header.column.columnDef.header}
-                </Table.HeadCell>
-              );
-            })}
-          </>
-        ))}
+    <>
+      <div>
+        <Table hoverable>
+          <Table.Head>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <Table.HeadCell key={header.id}>
+                      {typeof header.column.columnDef.header === "function"
+                        ? header.column.columnDef.header(header.getContext())
+                        : header.column.columnDef.header}
+                    </Table.HeadCell>
+                  );
+                })}
+              </>
+            ))}
+          </Table.Head>
 
-        {/* {headers.map((header) => (
-          <Table.HeadCell>{header}</Table.HeadCell>
-        ))} */}
-        {/* <Table.HeadCell>
-          <span className="sr-only">Edit</span>
-        </Table.HeadCell> */}
-      </Table.Head>
-
-      <Table.Body className="divide-y">
-        {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <Table.Row
-              key={row.id}
-              className="bg-white dark:border-gray-700 dark:bg-gray-800"
-            >
-              {row.getVisibleCells().map((cell) => (
-                <Table.Cell
-                  key={cell.id}
-                  className="whitespace-nowrap font-medium text-gray-900 dark:text-white"
+          <Table.Body className="divide-y">
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <Table.Row
+                  key={row.id}
+                  className="bg-white dark:border-gray-700 dark:bg-gray-800"
                 >
-                  {imageUrlCell(cell.id) ? (
-                    <Image
-                      src={(cell.getContext().getValue() as string) || ""}
-                      alt="Image"
-                      className="aspect-square object-cover rounded-md"
-                      height={100}
-                      width={100}
-                    />
-                  ) : imageCell(cell.id) ? (
-                    <>
-                      {/* {console.log(cell.getContext().getValue())} */}
-                      <Image
-                        src={(cell.getContext().getValue() as string) || ""}
-                        alt="Image"
-                        className="aspect-square object-cover rounded-md"
-                        height={100}
-                        width={100}
-                      />
-                    </>
-                  ) : (
-                    flexRender(cell.column.columnDef.cell, cell.getContext())
-                  )}
+                  {row.getVisibleCells().map((cell) => (
+                    <Table.Cell
+                      key={cell.id}
+                      className="whitespace-nowrap font-medium text-gray-900 dark:text-white"
+                    >
+                      {imageUrlCell(cell.id) ? (
+                        <Image
+                          src={(cell.getContext().getValue() as string) || ""}
+                          alt="Image"
+                          className="aspect-square object-cover rounded-md"
+                          height={100}
+                          width={100}
+                        />
+                      ) : imageCell(cell.id) ? (
+                        <>
+                          {/* {console.log(cell.getContext().getValue())} */}
+                          <Image
+                            src={(cell.getContext().getValue() as string) || ""}
+                            alt="Image"
+                            className="aspect-square object-cover rounded-md"
+                            height={100}
+                            width={100}
+                          />
+                        </>
+                      ) : (
+                        flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )
+                      )}
+                    </Table.Cell>
+                  ))}
+                </Table.Row>
+              ))
+            ) : (
+              <Table.Row>
+                <Table.Cell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
                 </Table.Cell>
-              ))}
-            </Table.Row>
-          ))
-        ) : (
-          <Table.Row>
-            <Table.Cell colSpan={columns.length} className="h-24 text-center">
-              No results.
-            </Table.Cell>
-          </Table.Row>
-        )}
-
-        {/* 
-        {data.map((item) => (
-          <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-            <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-              {item.name}
-            </Table.Cell>
-            <Table.Cell>{item.color}</Table.Cell>
-            <Table.Cell>{item.category}</Table.Cell>
-            <Table.Cell>{item.price}</Table.Cell>
-            <Table.Cell>
-              <a
-                className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                href="/tables"
-              >
-                <p>Edit</p>
-              </a>
-            </Table.Cell>
-          </Table.Row>
-        ))} */}
-        {/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-            Apple MacBook Pro 17"
-          </Table.Cell>
-          <Table.Cell>Sliver</Table.Cell>
-          <Table.Cell>Laptop</Table.Cell>
-          <Table.Cell>$2999</Table.Cell>
-          <Table.Cell>
-            <a
-              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-              href="/tables"
-            >
-              <p>Edit</p>
-            </a>
-          </Table.Cell>
-        </Table.Row> */}
-
-        {/* <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-            <p>Microsoft Surface Pro</p>
-          </Table.Cell>
-          <Table.Cell>White</Table.Cell>
-          <Table.Cell>Laptop PC</Table.Cell>
-          <Table.Cell>$1999</Table.Cell>
-          <Table.Cell>
-            <a
-              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-              href="/tables"
-            >
-              <p>Edit</p>
-            </a>
-          </Table.Cell>
-        </Table.Row>
-        <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-          <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-            Magic Mouse 2
-          </Table.Cell>
-          <Table.Cell>Black</Table.Cell>
-          <Table.Cell>Accessories</Table.Cell>
-          <Table.Cell>$99</Table.Cell>
-          <Table.Cell>
-            <a
-              className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-              href="/tables"
-            >
-              <p>Edit</p>
-            </a>
-          </Table.Cell>
-        </Table.Row> */}
-      </Table.Body>
-    </Table>
+              </Table.Row>
+            )}
+          </Table.Body>
+        </Table>
+        <div className="flex items-center justify-end space-x-2 py-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
+    </>
   );
 }
 
