@@ -13,8 +13,8 @@ import ContentSeparator from "@/components/ui/sidebar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BizVault",
-  description: "BizVault",
+  title: "BatVault",
+  description: "BatVault",
 };
 
 export default function RootLayout({
