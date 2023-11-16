@@ -36,7 +36,7 @@ const SheetDisplay = () => {
   const cart = useCart();
   //server connection
   const [isConnected, setIsConnected] = useState(false);
-  const URL = process.env.API_GATEWAY;
+  const URL = process.env.API_GATEWAY!;
   const router = useRouter();
   const isInitialRender = useRef(true);
 
