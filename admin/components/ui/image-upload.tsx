@@ -40,7 +40,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   const imageGenerator = async () => {
     const configuration = new Configuration({
-      apiKey: process.env.OPENAI_API_KEY_IMAGE_GEN,
+      apiKey: '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',
     });
 
     const openai = new OpenAIApi(configuration);
