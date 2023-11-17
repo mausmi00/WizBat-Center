@@ -33,7 +33,7 @@ const SheetDisplay = () => {
 
   //server connection
   const [isConnected, setIsConnected] = useState(false);
-  const URL = process.env.API_GATEWAY;
+  const URL = process.env.API_GATEWAY!;
   const router = useRouter();
 
   const params = useParams();
