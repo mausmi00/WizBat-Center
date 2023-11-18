@@ -20,7 +20,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   disabled,
   onChange,
   onRemove,
-  value,
+  value
 }) => {
   const [isMounted, setIsMounted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -40,7 +40,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
   const imageGenerator = async () => {
     const configuration = new Configuration({
-      apiKey: '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',
+      apiKey: process.env.NEXT_PUBLIC_IMAGE_GEN,
     });
 
     const openai = new OpenAIApi(configuration);
@@ -70,7 +70,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
         }
       });
   };
-  
+
   return (
     <div>
       <div className="mb-4 flex items-center gap-4">

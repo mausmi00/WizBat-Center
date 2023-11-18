@@ -19,6 +19,12 @@ import { toast } from "react-hot-toast";
 import Form from "./form";
 import clsx from "clsx";
 import MemoryChain from "@/app/api/[storeId]/robin/components/memoryChain";
+import { BiSolidMask } from "react-icons/bi";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 declare global {
   var socket: any;
@@ -29,11 +35,12 @@ const SheetDisplay = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState(null);
   const [newMessageSent, setNewMessageSent] = useState(false);
+  const [popover, setPopover] = useState(true);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   //server connection
   const [isConnected, setIsConnected] = useState(false);
-  const URL = 'wss://5imy91xy4g.execute-api.us-east-1.amazonaws.com/production';
+  const URL = process.env.NEXT_PUBLIC_API_GATEWAY!
   const router = useRouter();
 
   const params = useParams();
@@ -82,6 +89,7 @@ const SheetDisplay = () => {
 
   const onClick = () => {
     setIsLoading(true);
+    setPopover(false)
     // delete all old messages whenever robin is clicked on
     axios
       .delete(`/api/${storeId}/robin`)
@@ -107,11 +115,21 @@ const SheetDisplay = () => {
   return (
     <>
       <Sheet open={open}>
+      {popover ? (
+        <>
+          <Popover open={popover}>
+            <PopoverTrigger></PopoverTrigger>
+            <PopoverContent className="text-center mt-5 p-2 bg-gray-900 w-15">Chat with Robin here!</PopoverContent>
+          </Popover>
+        </>
+      ) : (
+        <> </>
+      )}
         <SheetTrigger>
           {isLoading ? (
-            <AiOutlineQq size={25} className={clsx(`cursor-wait`)} />
+            <BiSolidMask size={25} className={clsx(`cursor-wait`)} />
           ) : (
-            <AiOutlineQq
+            <BiSolidMask
               size={25}
               className={clsx(`cursor-pointer`)}
               onClick={onClick}
