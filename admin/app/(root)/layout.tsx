@@ -1,37 +1,28 @@
-import { useEffect } from 'react';
-import { useRouter } from 'next/router';
-import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import prismadb from "@/lib/prismadb";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
+  const { userId } = auth();
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const { userId } = await auth();
+  if (!userId) {
+    redirect("/sign-in");
+  }
 
-      if (!userId) {
-        router.push("/sign-in");
-        return;
-      }
+  const store = await prismadb.store.findFirst({
+    where: {
+      userId,
+    },
+  });
 
-      const store = await prismadb.store.findFirst({
-        where: {
-          userId,
-        },
-      });
+  if (store) {
+    redirect(`/${store.id}`);
+  }
 
-      if (store) {
-        router.push(`/${store.id}`);
-      }
-    };
-
-    checkAuth();
-  }, [router]);
-
+  // If no store is found, render the children (which should be your create store page)
   return <>{children}</>;
 }
