@@ -4,6 +4,7 @@ const nextConfig = {
     domains: ["res.cloudinary.com",
     "img.clerk.com"],
   },
+  trailingSlash: true,
 };
 
 module.exports = nextConfig;
