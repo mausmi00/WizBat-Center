@@ -44,7 +44,7 @@ export const getGraphRevenue = async (storeId: string) => {
         { name: "Aug", total: 0 },
         { name: "Sep", total: 0 },
         { name: "Oct", total: 0 },
-        { name: "Nev", total: 0 },
+        { name: "Nov", total: 0 },
         { name: "Dec", total: 0 },
 
     ]

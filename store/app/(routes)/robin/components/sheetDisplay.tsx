@@ -36,7 +36,7 @@ const SheetDisplay = () => {
   const cart = useCart();
   //server connection
   const [isConnected, setIsConnected] = useState(false);
-  const URL = 'wss://5imy91xy4g.execute-api.us-east-1.amazonaws.com/production';
+  const URL = process.env.NEXT_PUBLIC_API_GATEWAY!
   const router = useRouter();
   const isInitialRender = useRef(true);
 
